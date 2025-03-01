@@ -5,6 +5,7 @@ const mongoose = require("mongoose"); // 连接 MongoDB
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
+const errorHandler = require("./middleWare/errorMiddleware");
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use("/api/users", userRoute);
 app.get("/", (req, res) => {
   res.send("Home page11");
 });
+
+// Error 中间件
+app.use(errorHandler);
 
 // 连接数据库 & 开始服务
 mongoose
