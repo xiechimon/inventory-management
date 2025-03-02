@@ -90,13 +90,15 @@ const loginUser = asyncHandler(async (req, res) => {
   const token = generateToken(user._id);
 
   // 发送 HTTP-only cookie
-  res.cookie("token", token, {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 86400 * 365), // 365 day
-    sameSite: "none",
-    secure: true,
-  });
+  if (pwdIsCorrect) {
+    res.cookie("token", token, {
+      path: "/",
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 86400 * 365), // 365 day
+      sameSite: "none",
+      secure: true,
+    });
+  }
 
   if (user && pwdIsCorrect) {
     const { _id, _name, email, photo, phone, bio } = user;
