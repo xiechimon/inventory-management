@@ -117,7 +117,21 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// 退出登录
+const logoutUser = asyncHandler(async (req, res) => {
+  // 让cookie直接过期即可
+  res.cookie("token", "", {
+    path: "/",
+    httpOnly: true,
+    expires: new Date(0), // 现在过期
+    sameSite: "none",
+    secure: true,
+  });
+  return res.status(200).json( { message: "退出登录成功"})
+});
+
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
 };
