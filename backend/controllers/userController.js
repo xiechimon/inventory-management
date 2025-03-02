@@ -132,7 +132,22 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 // 获取用户数据
 const getUser = asyncHandler(async (req, res) => {
-  res.send("获取用户资料");
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    const { _id, _name, email, photo, phone, bio } = user;
+    res.status(201).json({
+      _id,
+      _name,
+      email,
+      photo,
+      phone,
+      bio,
+    });
+  } else {
+    res.status(400);
+    throw new Error("未找到用户");
+  }
 });
 
 module.exports = {
