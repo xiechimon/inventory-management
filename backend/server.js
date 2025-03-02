@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -13,8 +14,10 @@ const PORT = process.env.PORT || 5000;
 
 // 中间件 - 解析请求体中的数据
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // 挂载路由
 app.use("/api/users", userRoute);
