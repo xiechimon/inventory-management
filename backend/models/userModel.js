@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "输入密码"],
       minLength: [6, "密码长度必须超过6个字符"],
-      maxLength: [20, "密码长度必须少于20个字符"],
+      // maxLength: [20, "密码长度必须少于20个字符"],
     },
     photo: {
       type: String,
