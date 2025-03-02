@@ -3,10 +3,12 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
+// 生成Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "365d" });
 };
 
+// 用户注册
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -63,6 +65,13 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// 用户登录
+const loginUser = asyncHandler(async (req, res) => {
+  res.send("Login")
+  
+});
+
 module.exports = {
   registerUser,
+  loginUser,
 };
