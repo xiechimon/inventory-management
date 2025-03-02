@@ -49,10 +49,10 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    const { _id, _name, email, photo, phone, bio } = user;
+    const { _id, name, email, photo, phone, bio } = user;
     res.status(201).json({
       _id,
-      _name,
+      name,
       email,
       photo,
       phone,
@@ -101,10 +101,10 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   if (user && pwdIsCorrect) {
-    const { _id, _name, email, photo, phone, bio } = user;
+    const { _id, name, email, photo, phone, bio } = user;
     res.status(200).json({
       _id,
-      _name,
+      name,
       email,
       photo,
       phone,
@@ -135,10 +135,10 @@ const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const { _id, _name, email, photo, phone, bio } = user;
+    const { _id, name, email, photo, phone, bio } = user;
     res.status(201).json({
       _id,
-      _name,
+      name,
       email,
       photo,
       phone,
@@ -151,7 +151,6 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 // 获取登录状态
-// 检查 cookie 有没有过期
 const loginStatus = asyncHandler(async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
@@ -166,10 +165,38 @@ const loginStatus = asyncHandler(async (req, res) => {
   return res.json(false);
 });
 
+// 更新个人资料
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    const { name, email, photo, phone, bio } = user;
+    user.email = email;
+    user.name = req.body.name || name;
+    user.phone = req.body.phone || phone;
+    user.bio = req.body.bio || bio;
+    user.photo = req.body.photo || photo;
+
+    const updateUser = await user.save();
+    res.status(200).json({
+      _id: updateUser._id,
+      name: updateUser.name,
+      email: updateUser.email,
+      photo: updateUser.photo,
+      phone: updateUser.phone,
+      bio: updateUser.bio,
+    });
+  } else {
+    res.status(404)
+    throw new Error("未找到用户")
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   getUser,
   loginStatus,
+  updateUser,
 };
