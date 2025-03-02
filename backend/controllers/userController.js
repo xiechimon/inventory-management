@@ -65,10 +65,54 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// 用户登录
+// 用户登录 - 获取邮箱密码，然后去数据库中验证
 const loginUser = asyncHandler(async (req, res) => {
-  res.send("Login")
-  
+  const { email, password } = req.body;
+
+  // 验证请求
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("请添加邮箱和密码");
+  }
+
+  // 检查用户是否存在
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(400);
+    throw new Error("未找到用户，请注册");
+  }
+
+  // 用户存在，检查密码是否正确
+  const pwdIsCorrect = password === user.password;
+
+  // 生成 jwt token
+  const token = generateToken(user._id);
+
+  // 发送 HTTP-only cookie
+  res.cookie("token", token, {
+    path: "/",
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000 * 86400 * 365), // 365 day
+    sameSite: "none",
+    secure: true,
+  });
+
+  if (user && pwdIsCorrect) {
+    const { _id, _name, email, photo, phone, bio } = user;
+    res.status(200).json({
+      _id,
+      _name,
+      email,
+      photo,
+      phone,
+      bio,
+      token,
+    });
+  } else {
+    res.status(400);
+    throw new Error("邮箱或者密码无效");
+  }
 });
 
 module.exports = {
