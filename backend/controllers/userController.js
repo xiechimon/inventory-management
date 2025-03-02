@@ -127,11 +127,17 @@ const logoutUser = asyncHandler(async (req, res) => {
     sameSite: "none",
     secure: true,
   });
-  return res.status(200).json( { message: "退出登录成功"})
+  return res.status(200).json({ message: "退出登录成功" });
+});
+
+// 获取用户数据
+const getUser = asyncHandler(async (req, res) => {
+  res.send("获取用户资料");
 });
 
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  getUser,
 };
