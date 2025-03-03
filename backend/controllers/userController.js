@@ -187,9 +187,14 @@ const updateUser = asyncHandler(async (req, res) => {
       bio: updateUser.bio,
     });
   } else {
-    res.status(404)
-    throw new Error("未找到用户")
+    res.status(404);
+    throw new Error("未找到用户");
   }
+});
+
+// 更改密码
+const changepassword = asyncHandler(async (req, res) => {
+  res.send("Hello");
 });
 
 module.exports = {
@@ -199,4 +204,5 @@ module.exports = {
   getUser,
   loginStatus,
   updateUser,
+  changepassword,
 };
