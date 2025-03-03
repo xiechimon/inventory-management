@@ -9,7 +9,7 @@ const productSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      required: [true, "请添加昵称"],
+      required: [true, "请添加物品名"],
       trim: true,
     },
     sku: {
