@@ -5,6 +5,7 @@ const mongoose = require("mongoose"); // 连接 MongoDB
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
 
@@ -21,6 +22,7 @@ app.use(cors());
 
 // 挂载路由
 app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 
 // 路由
 app.get("/", (req, res) => {
