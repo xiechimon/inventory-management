@@ -194,7 +194,33 @@ const updateUser = asyncHandler(async (req, res) => {
 
 // 更改密码
 const changepassword = asyncHandler(async (req, res) => {
-  res.send("Hello");
+  const user = await User.findById(req.user._id);
+
+  const { oldPassword, password } = req.body;
+
+  // 验证
+  if (!user) {
+    res.status(400);
+    throw new Error("用户未找到，请注册");
+  }
+
+  if (!oldPassword || !password) {
+    res.status(400);
+    throw new Error("请添加旧密码和新密码");
+  }
+
+  // 检查旧密码是否匹配数据库中的密码
+  const pwdIsCorrect = oldPassword === user.password;
+
+  // 保存新密码
+  if (user && pwdIsCorrect) {
+    user.password = password;
+    await user.save(); // 存到数据库
+    res.status(200).send("密码更改成功");
+  } else {
+    res.status(400);
+    throw new Error("旧密码不正确，请重新输入");
+  }
 });
 
 module.exports = {
