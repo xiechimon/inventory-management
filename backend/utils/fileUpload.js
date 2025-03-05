@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
         cb(null, "uploads");
     },
     filename: function (req, file, cb) {
-        cb(null, Date().toISOString().replace(/:/g, "-") + file.originalname); // 获取当前日期时间后转为 ISO 格式
+        cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname); // 获取当前日期时间后转为 ISO 格式
     },
 });
 
