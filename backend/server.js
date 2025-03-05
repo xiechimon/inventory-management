@@ -8,6 +8,7 @@ const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const app = express();
 
@@ -20,13 +21,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // 挂载路由
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 
 // 路由
 app.get("/", (req, res) => {
-  res.send("Home page11");
+    res.send("Home page11");
 });
 
 // Error 中间件
@@ -34,10 +37,10 @@ app.use(errorHandler);
 
 // 连接数据库 & 开始服务
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server Running on port http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => console.log(err));
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server Running on port http://localhost:${PORT}`);
+        });
+    })
+    .catch((err) => console.log(err));
