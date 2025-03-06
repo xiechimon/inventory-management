@@ -63,21 +63,43 @@ const getProducts = asyncHandler(async (req, res) => {
 const getProduct = asyncHandler(async (req, res) => {
     // 从数据库中获取物品ID
     const product = await Product.findById(req.params.id);
+
     if (!product) {
         res.status(404);
         throw new Error("物品未找到");
     }
 
     if (product.user.toString() !== req.user.id) {
-        res.status(404);
+        res.status(401);
         throw new Error("用户未认证");
     }
 
     res.status(200).json(product);
 });
 
+// 删除产品
+const deleteProduct = asyncHandler(async (req, res) => {
+    // 从数据库中查找物品，如果有就将其删除
+    const product = await Product.findById(req.params.id);
+    
+    if (!product) {
+        res.status(404);
+        throw new Error("物品未找到");
+    }
+
+    if (product.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error("用户未认证");
+    }
+
+    await product.deleteOne();
+    res.status(200).json({message: "物品已删除"})
+    
+});
+
 module.exports = {
     createProduct,
     getProducts,
     getProduct,
+    deleteProduct,
 };
