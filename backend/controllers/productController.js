@@ -59,7 +59,25 @@ const getProducts = asyncHandler(async (req, res) => {
     res.status(200).json(products);
 });
 
+// 获取单个产品
+const getProduct = asyncHandler(async (req, res) => {
+    // 从数据库中获取物品ID
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+        res.status(404);
+        throw new Error("物品未找到");
+    }
+
+    if (product.user.toString() !== req.user.id) {
+        res.status(404);
+        throw new Error("用户未认证");
+    }
+
+    res.status(200).json(product);
+});
+
 module.exports = {
     createProduct,
     getProducts,
+    getProduct,
 };
