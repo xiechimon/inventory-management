@@ -23,6 +23,11 @@ const productSchema = mongoose.Schema(
       required: [true, "请添加分类"],
       trim: true,
     },
+    quantity: {
+      type: String,
+      required: [true, "请添加数量"],
+      trim: true,
+    },
     price: {
       type: String,
       required: [true, "请添加数量"],
