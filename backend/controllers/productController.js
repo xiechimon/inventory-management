@@ -50,6 +50,16 @@ const createProduct = asyncHandler(async (req, res) => {
     res.status(201).json(product);
 });
 
+// 获取所有产品
+const getProducts = asyncHandler(async (req, res) => {
+    // 将当前用户创建的产品按创建时间降序排列
+    const products = await Product.find({ user: req.user.id }).sort(
+        "-createdAt"
+    );
+    res.status(200).json(products);
+});
+
 module.exports = {
     createProduct,
+    getProducts,
 };
