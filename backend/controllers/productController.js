@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const { fileSizeFormatter } = require("../utils/fileUpload");
+const cloudinary = require("cloudinary").v2;
 
 const createProduct = asyncHandler(async (req, res) => {
     const { name, sku, category, quantity, price, description } = req.body;
@@ -14,10 +15,21 @@ const createProduct = asyncHandler(async (req, res) => {
     // 处理图片上传
     let fileData = {};
     if (req.file) {
-        //如果有文件上传
+        // 将文件存到云端然后获取云上的URL上传
+        let uploadedFile;
+        try {
+            uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+                folder: "Inventory App",
+                resource_type: "image",
+            });
+        } catch (error) {
+            res.status(500);
+            throw new Error("图片上传失败");
+        }
+
         fileData = {
             fileName: req.file.originalname,
-            filePath: req.file.path,
+            filePath: uploadedFile.secure_url,
             fileType: req.file.mimetype,
             fileSize: fileSizeFormatter(req.file.size, 2),
         };
