@@ -4,10 +4,13 @@ const express = require("express");
 const mongoose = require("mongoose"); // 连接 MongoDB
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const userRoute = require("./routes/userRoute");
-const productRoute = require("./routes/productRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
+
+const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
+const contactRoute = require("./routes/contactRoute");
+
 const path = require("path");
 
 const app = express();
@@ -23,9 +26,10 @@ app.use(cors());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// 挂载路由
+// 路由中间件
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
+app.use("/api/contactus", contactRoute);
 
 // 路由
 app.get("/", (req, res) => {

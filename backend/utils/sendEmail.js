@@ -16,8 +16,8 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
 
     // 发送邮件的选项
     const options = {
-        form: sent_from,
-        to: sent_to,
+        from: sent_from,
+        to: send_to,
         replyTo: reply_to,
         subject: subject,
         html: message,
@@ -32,6 +32,4 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
     });
 };
 
-module.exports = {
-    sendEmail,
-};
+module.exports = sendEmail;
