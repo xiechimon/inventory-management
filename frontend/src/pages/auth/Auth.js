@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./auth.css";
 
+
 const Auth = () => {
     const [action, setAction] = useState("");
 
