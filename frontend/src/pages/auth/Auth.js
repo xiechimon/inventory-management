@@ -13,6 +13,7 @@ const Auth = () => {
     };
 
     return (
+        <div className={styles.authcontainer}>
         <div className={`${styles.wrapper} ${action ? styles.active : ''}`}>
             <div className={styles['form-header']}>
                 <div className={styles.titles}>
@@ -143,6 +144,7 @@ const Auth = () => {
                     </span>
                 </div>
             </form>
+        </div>
         </div>
     );
 };
