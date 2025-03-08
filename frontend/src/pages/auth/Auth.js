@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./auth.css";
-
+import styles from "./auth.module.css";
 
 const Auth = () => {
     const [action, setAction] = useState("");
@@ -14,53 +13,54 @@ const Auth = () => {
     };
 
     return (
-        <div className={`wrapper${action}`}>
-            <div className="form-header">
-                <div className="titles">
-                    <div className="title-login">登录</div>
-                    <div className="title-register">注册</div>
+        <div className={`${styles.wrapper} ${action ? styles.active : ''}`}>
+            <div className={styles['form-header']}>
+                <div className={styles.titles}>
+                    <div className={styles['title-login']}>登录</div>
+                    <div className={styles['title-register']}>注册</div>
                 </div>
             </div>
             {/*  LOGIN FORM */}
-            <form action="#" className="login-form" autocomplete="off">
-                <div className="input-box">
+            <form action="#" className={styles['login-form']} autocomplete="off">
+                <div className={styles['input-box']}>
                     <input
                         type="text"
-                        className="input-field"
+                        className={styles['input-field']}
                         id="log-email"
                         name="email"
                         required
                     />
-                    <label htmlFor="log-email" className="label">
+
+                    <label htmlFor="log-email" className={styles.label}>
                         邮箱
                     </label>
-                    <i className="bx bx-envelope icon"></i>
+                    <i className={`bx bx-envelope ${styles.icon}`}></i>
                 </div>
-                <div className="input-box">
+                <div className={styles['input-box']}>
                     <input
                         type="password"
-                        className="input-field"
+                        className={styles['input-field']}
                         id="log-pass"
                         name="password"
                         required
                     />
-                    <label htmlFor="log-pass" className="label">
+                    <label htmlFor="log-pass" className={styles.label}>
                         密码
                     </label>
-                    <i className="bx bx-lock-alt icon"></i>
+                    <i className={`bx bx-lock-alt ${styles.icon}`}></i>
                 </div>
-                <div className="form-cols">
-                    <div className="col-1"></div>
-                    <div className="col-2">
+                <div className={styles['form-cols']}>
+                    <div className={styles['col-1']}></div>
+                    <div className={styles['col-2']}>
                         {/* <a href="#">忘记密码？</a> */}
                     </div>
                 </div>
-                <div className="input-box">
-                    <button className="btn-submit" id="SignInBtn" type="submit">
+                <div className={styles['input-box']}>
+                    <button className={styles['btn-submit']} id="SignInBtn" type="submit">
                         登录 <i className="bx bx-log-in"></i>
                     </button>
                 </div>
-                <div className="switch-form">
+                <div className={styles['switch-form']}>
                     <span>
                         没有账户？
                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -72,68 +72,68 @@ const Auth = () => {
             </form>
 
             {/* REGISTER FORM */}
-            <form action="#" className="register-form" autocomplete="off">
-                <div className="input-box">
+            <form action="#" className={styles['register-form']} autocomplete="off">
+                <div className={styles['input-box']}>
                     <input
                         type="text"
-                        className="input-field"
+                        className={styles['input-field']}
                         id="reg-name"
                         name="name"
                         required
                     />
-                    <label htmlFor="reg-name" className="label">
+                    <label htmlFor="reg-name" className={styles.label}>
                         用户名
                     </label>
-                    <i className="bx bx-user icon"></i>
+                    <i className={`bx bx-user ${styles.icon}`}></i>
                 </div>
-                <div className="input-box">
+                <div className={styles['input-box']}>
                     <input
                         type="type"
-                        className="input-field"
+                        className={styles['input-field']}
                         id="reg-email"
                         name="email"
                         required
                     />
-                    <label htmlFor="reg-email" className="label">
+                    <label htmlFor="reg-email" className={styles.label}>
                         邮箱
                     </label>
-                    <i className="bx bx-envelope icon"></i>
+                    <i className={`bx bx-envelope ${styles.icon}`}></i>
                 </div>
-                <div className="input-box">
+                <div className={styles['input-box']}>
                     <input
                         type="password"
-                        className="input-field"
+                        className={styles['input-field']}
                         id="reg-pass"
                         name="password"
                         required
                     />
-                    <label htmlFor="reg-pass" className="label">
+                    <label htmlFor="reg-pass" className={styles.label}>
                         密码
                     </label>
-                    <i className="bx bx-lock-alt icon"></i>
+                    <i className={`bx bx-lock-alt ${styles.icon}`}></i>
                 </div>
-                <div className="input-box">
+                <div className={styles['input-box']}>
                     <input
                         type="password"
-                        className="input-field"
+                        className={styles['input-field']}
                         id="reg-pass"
                         name="password"
                         required
                     />
-                    <label htmlFor="reg-pass" className="label">
+                    <label htmlFor="reg-pass" className={styles.label}>
                         确认密码
                     </label>
-                    <i className="bx bxs-lock-alt icon"></i>
+                    <i className={`bx bxs-lock-alt ${styles.icon}`}></i>
                 </div>
-                <div className="form-cols">
-                    <div className="col-2"></div>
+                <div className={styles['form-cols']}>
+                    <div className={styles['cols-2']}></div>
                 </div>
-                <div className="input-box">
-                    <button className="btn-submit" id="SignUpBtn" type="submit">
+                <div className={styles['input-box']}>
+                    <button className={styles['btn-submit']} id="SignUpBtn" type="submit">
                         注册 <i className="bx bx-user-plus"></i>
                     </button>
                 </div>
-                <div className="switch-form">
+                <div className={styles['switch-form']}>
                     <span>
                         已拥有账户？
                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
