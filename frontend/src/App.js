@@ -1,3 +1,5 @@
+import axios from "axios";
+import { ToastContainer } from "react-toastify";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/common/Layout";
@@ -8,14 +10,16 @@ import ProductsPage from "./pages/ProductsPage";
 import SettingsPage from "./pages/SettingsPage";
 import DashboardPage from "./pages/DashboardPage";
 import AddProductPage from "./pages/AddProductPage";
-import ProfilePage from "./pages/ProfilePage"
-import ProfileUpdatePage from "./pages/ProfileUpdatePage"
-import ContactUsPage from "./pages/ContactUsPage"
+import ProfilePage from "./pages/ProfilePage";
+import ProfileUpdatePage from "./pages/ProfileUpdatePage";
+import ContactUsPage from "./pages/ContactUsPage";
 
+axios.defaults.withCredentials = true;
 
 function App() {
     return (
         <BrowserRouter>
+            <ToastContainer />
             <Routes>
                 {/* 认证 */}
                 <Route path="/" element={<Navigate to="/auth" replace />} />
@@ -26,8 +30,11 @@ function App() {
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/add-product" element={<AddProductPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/profile-update" element={<ProfileUpdatePage />} />
-                    <Route path="/contact-us" element={<ContactUsPage/>} />
+                    <Route
+                        path="/profile-update"
+                        element={<ProfileUpdatePage />}
+                    />
+                    <Route path="/contact-us" element={<ContactUsPage />} />
 
                     <Route path="/overview" element={<OverviewPage />} />
                     <Route path="/products" element={<ProductsPage />} />
