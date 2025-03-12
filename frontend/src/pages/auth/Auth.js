@@ -90,7 +90,7 @@ const Auth = () => {
                 </div>
                 {/*  LOGIN FORM */}
                 <form
-                    action="#"
+                    // action="#"
                     className={styles["login-form"]}
                     onSubmit={login}
                 >
@@ -98,17 +98,17 @@ const Auth = () => {
                         <input
                             type="text"
                             className={styles["input-field"]}
-                            id="log-email"
+                            id="log-name"
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
                             required
                         />
 
-                        <label htmlFor="log-email" className={styles.label}>
-                            邮箱
+                        <label htmlFor="log-name" className={styles.label}>
+                            用户名
                         </label>
-                        <i className={`bx bx-envelope ${styles.icon}`}></i>
+                        <i className={`bx bx-user ${styles.icon}`}></i>
                     </div>
                     <div className={styles["input-box"]}>
                         <input
@@ -144,16 +144,14 @@ const Auth = () => {
                         <span>
                             没有账户？
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a href="#" onClick={registerLink}>
-                                注册
-                            </a>
+                            <a onClick={registerLink}>注册</a>
                         </span>
                     </div>
                 </form>
 
                 {/* REGISTER FORM */}
                 <form
-                    action="#"
+                    // action="#"
                     className={styles["register-form"]}
                     onSubmit={register}
                 >
@@ -233,9 +231,7 @@ const Auth = () => {
                         <span>
                             已拥有账户？
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a href="#" onClick={loginLink}>
-                                登录
-                            </a>
+                            <a onClick={loginLink}>登录</a>
                         </span>
                     </div>
                 </form>
