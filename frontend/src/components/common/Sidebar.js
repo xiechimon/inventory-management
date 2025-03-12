@@ -1,4 +1,15 @@
-import { BarChart2, HousePlus, LayoutDashboard, Menu, MessageCircle, Settings, ShoppingBag, UserRound, UserRoundPen } from "lucide-react";
+import {
+    BarChart2,
+    HousePlus,
+    LayoutDashboard,
+    Menu,
+    MessageCircle,
+    MonitorPlay,
+    Settings,
+    ShoppingBag,
+    UserRound,
+    UserRoundPen,
+} from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -9,7 +20,8 @@ const SIDEBAR_ITEMS = [
     { name: "资料", icon: UserRound, href: "/profile" },
     { name: "修改资料", icon: UserRoundPen, href: "/profile-update" },
     { name: "问题反馈", icon: MessageCircle, href: "/contact-us" },
-    
+    { name: "WebRTC", icon: MonitorPlay, href: "/contact" },
+
     { name: "概览", icon: BarChart2, href: "/overview" },
     { name: "产品", icon: ShoppingBag, href: "/products" },
     { name: "设置", icon: Settings, href: "/settings" },

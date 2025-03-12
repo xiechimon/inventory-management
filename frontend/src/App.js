@@ -13,6 +13,7 @@ import AddProductPage from "./pages/AddProductPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileUpdatePage from "./pages/ProfileUpdatePage";
 import ContactUsPage from "./pages/ContactUsPage";
+import ContactPage from "./pages/ContactPage";
 
 axios.defaults.withCredentials = true;
 
@@ -35,6 +36,7 @@ function App() {
                         element={<ProfileUpdatePage />}
                     />
                     <Route path="/contact-us" element={<ContactUsPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
 
                     <Route path="/overview" element={<OverviewPage />} />
                     <Route path="/products" element={<ProductsPage />} />
