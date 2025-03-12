@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SIDEBAR_ITEMS = [
     { name: "仪表盘", icon: LayoutDashboard, href: "/dashboard" },
@@ -28,6 +28,7 @@ const SIDEBAR_ITEMS = [
 ];
 
 const Sidebar = () => {
+    const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     return (
@@ -50,7 +51,13 @@ const Sidebar = () => {
                 <nav className="mt-8 flex-grow">
                     {SIDEBAR_ITEMS.map((item) => (
                         <Link key={item.href} to={item.href}>
-                            <motion.div className="flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors mb-2">
+                            <motion.div
+                                className={`flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors mb-2 ${
+                                    location.pathname === item.href
+                                        ? "bg-gray-400" // 当前页面高亮
+                                        : ""
+                                }`}
+                            >
                                 <item.icon
                                     size={20}
                                     style={{
