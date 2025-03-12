@@ -9,6 +9,7 @@ export const validateEmail = (email) => {
     );
 };
 
+// 注册
 export const registerUser = async (userData) => {
     try {
         const response = await axios.post(
@@ -34,14 +35,13 @@ export const registerUser = async (userData) => {
         toast.error(message);
     }
 };
+
+// 登录
 export const loginUser = async (userData) => {
     try {
         const response = await axios.post(
             `${BACKEND_URL}/api/users/login`,
-            userData,
-            {
-                withCredentials: true,
-            }
+            userData
         );
 
         if (response.statusText === "OK") {
@@ -49,6 +49,21 @@ export const loginUser = async (userData) => {
         }
 
         return response.data;
+    } catch (error) {
+        const message =
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString();
+        toast.error(message);
+    }
+};
+
+// 登出
+export const logoutUser = async (userData) => {
+    try {
+        await axios.get(`${BACKEND_URL}/api/users/logout`);
     } catch (error) {
         const message =
             (error.response &&
