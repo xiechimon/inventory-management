@@ -67,16 +67,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // 用户登录 - 获取邮箱密码，然后去数据库中验证
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { name, password } = req.body;
 
   // 验证请求
-  if (!email || !password) {
+  if (!name || !password) {
     res.status(400);
-    throw new Error("请添加邮箱和密码");
+    throw new Error("请添加用户名和密码");
   }
 
   // 检查用户是否存在
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ name });
 
   if (!user) {
     res.status(400);
