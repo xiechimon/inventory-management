@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./auth.module.css";
 import { toast } from "react-toastify";
-import { registerUser, validateEmail } from "../../services/authService";
+import { loginUser, registerUser, validateEmail } from "../../services/authService";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
@@ -73,10 +73,31 @@ const Auth = () => {
             console.log(error.message);
         }
     };
-    const login = (e) => {
+    const login = async (e) => {
         e.preventDefault();
 
-        console.log(formData);
+        if (!name || !password) {
+            return toast.error("必须填写所有字段！");
+        }
+        if (password.length < 6) {
+            return toast.error("密码长度必须大于6个字符！");
+        }
+
+        const userData = {
+            name,
+            password,
+        };
+        try {
+            const data = await loginUser(userData);
+            console.log(data);
+            
+            await dispatch(SET_LOGIN(true));
+            await dispatch(SET_NAME(data.name));
+            navigate("/dashboard");
+        } catch (error) {
+            console.log(error.message);
+        }
+        
     };
 
     return (
@@ -93,6 +114,7 @@ const Auth = () => {
                     // action="#"
                     className={styles["login-form"]}
                     onSubmit={login}
+                    autoComplete="off"
                 >
                     <div className={styles["input-box"]}>
                         <input
@@ -154,6 +176,7 @@ const Auth = () => {
                     // action="#"
                     className={styles["register-form"]}
                     onSubmit={register}
+                    autoComplete="off"
                 >
                     <div className={styles["input-box"]}>
                         <input

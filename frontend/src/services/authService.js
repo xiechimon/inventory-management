@@ -19,7 +19,7 @@ export const registerUser = async (userData) => {
             }
         );
 
-        if (response.statusText === "注册成功") {
+        if (response.statusText === "OK") {
             toast.success("用户注册成功");
         }
 
@@ -27,7 +27,33 @@ export const registerUser = async (userData) => {
     } catch (error) {
         const message =
             (error.response &&
-                error.response.data && error.response.data.message) ||
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString();
+        toast.error(message);
+    }
+};
+export const loginUser = async (userData) => {
+    try {
+        const response = await axios.post(
+            `${BACKEND_URL}/api/users/login`,
+            userData,
+            {
+                withCredentials: true,
+            }
+        );
+
+        if (response.statusText === "OK") {
+            toast.success("用户登录成功");
+        }
+
+        return response.data;
+    } catch (error) {
+        const message =
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
             error.message ||
             error.toString();
         toast.error(message);
