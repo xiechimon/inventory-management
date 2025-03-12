@@ -61,9 +61,24 @@ export const loginUser = async (userData) => {
 };
 
 // 登出
-export const logoutUser = async (userData) => {
+export const logoutUser = async () => {
     try {
         await axios.get(`${BACKEND_URL}/api/users/logout`);
+    } catch (error) {
+        const message =
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString();
+        toast.error(message);
+    }
+};
+
+// 获取登录信息
+export const getLoginStatus = async () => {
+    try {
+        await axios.get(`${BACKEND_URL}/api/users/loggedin`);
     } catch (error) {
         const message =
             (error.response &&
