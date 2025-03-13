@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import productService from "./productService";
 
 const initialState = {
     product: null,
@@ -10,11 +11,11 @@ const initialState = {
 };
 
 // 创建新产品
-const createProduct = createAsyncThunk(
+export const createProduct = createAsyncThunk(
     "products/create",
     async (formData, thunkAPI) => {
         try {
-            return await productSlice.createProduct(formData);
+            return await productService.createProduct(formData);
         } catch (error) {
             const message =
                 (error.response &&
@@ -23,7 +24,7 @@ const createProduct = createAsyncThunk(
                 error.message ||
                 error.toString();
             console.log(message);
-            return thunkAPI.rejectWithValue;
+            return thunkAPI.rejectWithValue(message);
         }
     }
 );
@@ -41,7 +42,7 @@ const productSlice = createSlice({
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.isSuccess = true;
                 console.log(action.payload);
-                state.product.push(action.payload);
+                state.products.push(action.payload);
                 toast.success("物品添加成功");
             })
             .addCase(createProduct.rejected, (state, action) => {

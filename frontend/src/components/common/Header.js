@@ -25,7 +25,7 @@ const Header = ({ title, subtitle }) => {
                 <h1 className="text-2xl font-semibold text-gray-900">
                     {title}
                     <span
-                        className="text-indigo-600 hover:text-indigo-800 cursor-pointer"
+                        className="text-blue-600 hover:text-blue-800 cursor-pointer"
                         onClick={CheckToProfile}
                     >
                         {subtitle}
@@ -33,7 +33,7 @@ const Header = ({ title, subtitle }) => {
                 </h1>
                 <button
                     onClick={logout}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-200 h-10 flex items-center justify-center"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 h-10 flex items-center justify-center"
                 >
                     退出登录
                 </button>
