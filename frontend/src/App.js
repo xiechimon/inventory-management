@@ -30,7 +30,7 @@ function App() {
             dispatch(SET_LOGIN(status));
         }
         loginStatus()
-        
+
     }, [dispatch]);
 
     return (
