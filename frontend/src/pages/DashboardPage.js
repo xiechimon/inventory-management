@@ -20,7 +20,6 @@ const DashboardPage = () => {
         (state) => state.product
     );
 
-
     useEffect(() => {
         if (isLoggedIn === true) {
             dispatch(getProducts());
@@ -68,7 +67,6 @@ const DashboardPage = () => {
                         backgroundColor="#00476DFF"
                     />
                 </motion.div>
-               
 
                 <ProductsTable products={products} />
             </main>
