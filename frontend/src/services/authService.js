@@ -63,7 +63,10 @@ export const loginUser = async (userData) => {
 // 登出
 export const logoutUser = async () => {
     try {
-        await axios.get(`${BACKEND_URL}/api/users/logout`);
+        const response = await axios.get(`${BACKEND_URL}/api/users/logout`);
+        if (response.statusText === "OK") {
+            toast.info("退出登录成功");
+        }
     } catch (error) {
         const message =
             (error.response &&
@@ -78,7 +81,8 @@ export const logoutUser = async () => {
 // 获取登录信息
 export const getLoginStatus = async () => {
     try {
-        await axios.get(`${BACKEND_URL}/api/users/loggedin`);
+        const response = await axios.get(`${BACKEND_URL}/api/users/loggedin`);
+        return response.data;
     } catch (error) {
         const message =
             (error.response &&
