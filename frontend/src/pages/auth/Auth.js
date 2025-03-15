@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import styles from "./auth.module.css";
 import { toast } from "react-toastify";
-import { loginUser, registerUser, validateEmail } from "../../services/authService";
-import { useDispatch } from "react-redux";
+import {
+    loginUser,
+    registerUser,
+    validateEmail,
+} from "../../services/authService";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
+import {
+    selectIsLoggedIn,
+    SET_LOGIN,
+    SET_NAME,
+} from "../../redux/features/auth/authSlice";
 
 const initialState = {
     name: "",
@@ -17,6 +25,13 @@ const Auth = () => {
     // 使用hooks
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    
+    // 已登录直接跳转到仪表盘
+    if (isLoggedIn === true) {
+        navigate("/dashboard")
+        toast.info("您已经登录")
+    }
 
     // 切换登录和注册，切换时重置数据
     const [action, setAction] = useState("");
@@ -60,16 +75,13 @@ const Auth = () => {
             email,
             password,
         };
-        // setIsLoading(true);
         try {
             const data = await registerUser(userData);
             // console.log(data);
             await dispatch(SET_LOGIN(true));
             await dispatch(SET_NAME(data.name));
             navigate("/dashboard");
-            // setIsLoading(false);
         } catch (error) {
-            // setIsLoading(false);
             console.log(error.message);
         }
     };
@@ -90,14 +102,13 @@ const Auth = () => {
         try {
             const data = await loginUser(userData);
             console.log(data);
-            
+
             await dispatch(SET_LOGIN(true));
             await dispatch(SET_NAME(data.name));
             navigate("/dashboard");
         } catch (error) {
             console.log(error.message);
         }
-        
     };
 
     return (
