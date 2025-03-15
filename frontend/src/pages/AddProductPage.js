@@ -4,6 +4,7 @@ import ProductForm from "../components/products/ProductForm";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../redux/features/product/productSlice";
 import { useNavigate } from "react-router-dom";
+import pinyin from "pinyin";
 
 const initialState = {
     name: "",
@@ -57,7 +58,15 @@ const AddProductPage = () => {
     };
 
     const generateSKU = (category) => {
-        const letter = category.slice(0, 3).toUpperCase();
+        const pinyinArray = pinyin(category, {
+            style: pinyin.STYLE_FIRST_LETTER,  //获取拼音首字母
+        });
+        const letter = pinyinArray
+            .slice(0, 3) // 取前3个字符
+            .map(([firstLetter]) => firstLetter.toUpperCase()) // 转换为大写
+            .join("");
+
+        // const letter = category.slice(0, 3).toUpperCase();
         const number = Date.now();
         const sku = letter + "-" + number;
         return sku;
@@ -76,7 +85,7 @@ const AddProductPage = () => {
 
         console.log(...formData);
 
-        await dispatch(createProduct(formData));  // 提交到数据库
+        await dispatch(createProduct(formData)); // 提交到数据库
         navigate("/dashboard");
     };
 
