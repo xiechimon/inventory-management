@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Edit, Eye, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import SearchBox from "../common/SearchBox";
 import { useDispatch, useSelector } from "react-redux";
+import { confirmAlert } from "react-confirm-alert";
+import SearchBox from "../common/SearchBox";
 import ReactPaginate from "react-paginate";
 import {
     FILTER_PRODUCTS,
     selectFilterProducts,
 } from "../../redux/features/product/filterSlice";
+import {
+    getProducts,
+    delProduct,
+} from "../../redux/features/product/productSlice";
 
 const ProductsTable = ({ products }) => {
     // 搜索框过滤
@@ -21,6 +26,61 @@ const ProductsTable = ({ products }) => {
             return shortenedText;
         }
         return text;
+    };
+
+    // 删除产品
+    const deleteProduct = async (id) => {
+        await dispatch(delProduct(id));
+        await dispatch(getProducts());
+    };
+
+    const confirmDel = (id) => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                        <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+                            <div className="flex flex-col items-center mb-4">
+                                {/* 警示图标 */}
+                                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                    <div className="w-6 h-6 bg-red-500 rounded-full relative">
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-3 bg-white" />
+                                    </div>
+                                </div>
+
+                                {/* 标题和内容 */}
+                                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                                    删除确认
+                                </h3>
+                                <p className="text-gray-600 text-center">
+                                    确定要永久删除此产品吗？此操作不可撤销。
+                                </p>
+                            </div>
+
+                            {/* 操作按钮 */}
+                            <div className="flex justify-between">
+                                <button
+                                    onClick={onClose}
+                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                >
+                                    取消
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        deleteProduct(id);
+                                        onClose();
+                                    }}
+                                    className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors shadow-sm"
+                                >
+                                    确认删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            },
+        });
     };
 
     // BEGIN Paginate
@@ -139,7 +199,12 @@ const ProductsTable = ({ products }) => {
                                                 <Edit size={20} />
                                             </button>
                                             <button className="text-red-500 hover:text-red-700">
-                                                <Trash2 size={20} />
+                                                <Trash2
+                                                    size={20}
+                                                    onClick={() =>
+                                                        confirmDel(_id)
+                                                    }
+                                                />
                                             </button>
                                         </td>
                                     </motion.tr>

@@ -51,6 +51,25 @@ export const getProducts = createAsyncThunk(
     }
 );
 
+// 删除产品
+export const delProduct = createAsyncThunk(
+    "products/delete",
+    async (id, thunkAPI) => {
+        try {
+            return await productService.delProduct(id);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            console.log(message);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -96,7 +115,7 @@ const productSlice = createSlice({
                 const { category } = item;
                 return array.push(category);
             });
-            
+
             const uniqueSet = new Set(array); // 去重
             state.category = uniqueSet.size;
         },
@@ -128,11 +147,24 @@ const productSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 toast.error(action.payload);
+            })
+
+            // 删除产品
+            .addCase(delProduct.fulfilled, (state, action) => {
+                state.isSuccess = true;
+                state.isError = false;
+                toast.success("物品删除成功");
+            })
+            .addCase(delProduct.rejected, (state, action) => {
+                state.isError = true;
+                state.message = action.payload;
+                toast.error(action.payload);
             });
     },
 });
 
-export const { CALC_STORE_VALUE, CALC_OUTOFSTOCK, CALC_CATEGORY } = productSlice.actions;
+export const { CALC_STORE_VALUE, CALC_OUTOFSTOCK, CALC_CATEGORY } =
+    productSlice.actions;
 
 export const selectTotalStoreValue = (state) => state.product.totalStoreValue;
 export const selectOutOfStock = (state) => state.product.outOfStock;
