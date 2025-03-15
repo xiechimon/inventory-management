@@ -2,11 +2,12 @@ import { motion } from "framer-motion";
 import {
     UploadCloud,
     Package,
-    ArrowRight,
     JapaneseYen,
     Book,
     Hash,
+    ArrowLeftCircle,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ProductForm = ({
     product,
@@ -18,10 +19,11 @@ const ProductForm = ({
     handleInputChange,
     saveProduct,
 }) => {
-
     const handleDescriptionChange = (e) => {
         setDescription(e.target.value); // 从事件对象中提取输入值
     };
+
+    const navigate = useNavigate();
 
     return (
         <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
@@ -35,6 +37,15 @@ const ProductForm = ({
                     <h2 className="text-xl font-semibold text-gray-900">
                         添加库存
                     </h2>
+
+                    {/* 返回按钮 */}
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="flex items-center gap-1.5 text-gray-600 hover:text-blue-600
+      transition-colors group"
+                    >
+                        <ArrowLeftCircle className="w-8 h-8 group-hover:-translate-x-0.5 transition-transform" />
+                    </button>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -207,8 +218,7 @@ const ProductForm = ({
                                 className="px-8 py-3 bg-blue-600 hover:bg-blue-700
                                 text-white font-medium rounded-xl relative"
                             >
-                                提交库存
-                                <ArrowRight className="inline-block ml-2 w-4 h-4" />
+                                提交
                             </button>
                         </div>
                     </form>

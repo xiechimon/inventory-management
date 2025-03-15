@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./auth.module.css";
 import { toast } from "react-toastify";
 import {
@@ -26,12 +26,6 @@ const Auth = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector(selectIsLoggedIn);
-
-    // 已登录直接跳转到仪表盘
-    if (isLoggedIn === true) {
-        navigate("/dashboard");
-        toast.info("您已经登录");
-    }
 
     // 切换登录和注册，切换时重置数据
     const [action, setAction] = useState("");
@@ -110,6 +104,10 @@ const Auth = () => {
             console.log(error.message);
         }
     };
+    useEffect(() => {
+        navigate("/dashboard");
+        toast.info("您已经登录");
+    }, [isLoggedIn, navigate]);
 
     return (
         <div className={styles.authcontainer}>

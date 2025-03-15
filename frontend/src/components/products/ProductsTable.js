@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Edit, Eye, Trash2 } from "lucide-react";
+import {
+    ArrowLeft,
+    ArrowRight,
+    Edit,
+    Eye,
+    PlusCircle,
+    Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
@@ -13,9 +20,11 @@ import {
     getProducts,
     delProduct,
 } from "../../redux/features/product/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProductsTable = ({ products }) => {
     // 搜索框过滤
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [search, setSearch] = useState("");
     const filteredProducts = useSelector(selectFilterProducts);
@@ -26,6 +35,16 @@ const ProductsTable = ({ products }) => {
             return shortenedText;
         }
         return text;
+    };
+
+    // 查看详情
+    const handleViewDetails = (id) => {
+        navigate(`/dashboard/product/${id}`);
+    };
+
+    // 编辑产品
+    const handleEditProduct = (id) => {
+        navigate(`/dashboard/edit/${id}`);
     };
 
     // 删除产品
@@ -120,10 +139,22 @@ const ProductsTable = ({ products }) => {
                     库存列表
                 </h2>
 
-                <SearchBox
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={() => navigate("/add-product")}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg 
+                        border border-blue-500 bg-blue-500/10 hover:bg-blue-500/20
+                        text-blue-600 hover:text-blue-700
+                        transition-colors group"
+                    >
+                        <PlusCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        <span className="text-sm font-medium">添加产品</span>
+                    </button>
+                    <SearchBox
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
             </div>
 
             <div className="overflow-x-auto">
@@ -193,10 +224,20 @@ const ProductsTable = ({ products }) => {
                                         </td>
                                         <td className="text-center py-4 whitespace-nowrap text-sm text-gray-700">
                                             <button className="text-blue-500 hover:text-blue-700 mr-2">
-                                                <Eye size={20} />
+                                                <Eye
+                                                    size={20}
+                                                    onClick={() => {
+                                                        handleViewDetails(_id);
+                                                    }}
+                                                />
                                             </button>
                                             <button className="text-indigo-500 hover:text-indigo-700 mr-2">
-                                                <Edit size={20} />
+                                                <Edit
+                                                    size={20}
+                                                    onClick={() => {
+                                                        handleEditProduct(_id);
+                                                    }}
+                                                />
                                             </button>
                                             <button className="text-red-500 hover:text-red-700">
                                                 <Trash2

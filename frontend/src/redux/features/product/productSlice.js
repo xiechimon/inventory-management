@@ -51,12 +51,50 @@ export const getProducts = createAsyncThunk(
     }
 );
 
+// 获取单个产品
+export const getOneProduct = createAsyncThunk(
+    "products/getOne",
+    async (id, thunkAPI) => {
+        try {
+            return await productService.getSingleProduct(id);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            console.log(message);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 // 删除产品
 export const delProduct = createAsyncThunk(
     "products/delete",
     async (id, thunkAPI) => {
         try {
             return await productService.delProduct(id);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            console.log(message);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+// 更新产品信息
+export const updateProduct = createAsyncThunk(
+    "products/updateProduct",
+    async ({ id, formData }, thunkAPI) => {
+        try {
+            return await productService.updateProduct(id, formData);
         } catch (error) {
             const message =
                 (error.response &&
@@ -126,7 +164,7 @@ const productSlice = createSlice({
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.isSuccess = true;
                 state.isError = false;
-                console.log(action.payload);
+                // console.log(action.payload);
                 state.products.push(action.payload);
                 toast.success("库存添加成功");
             })
@@ -136,14 +174,26 @@ const productSlice = createSlice({
                 toast.error(action.payload);
             })
 
-            // 获取库存
+            // 获取所有库存
             .addCase(getProducts.fulfilled, (state, action) => {
                 state.isSuccess = true;
                 state.isError = false;
-                console.log("Request succeed:", action.payload); // 打印错误信息
                 state.products = action.payload;
             })
             .addCase(getProducts.rejected, (state, action) => {
+                state.isError = true;
+                state.message = action.payload;
+                toast.error(action.payload);
+            })
+
+            // 获取单个库存
+            .addCase(getOneProduct.fulfilled, (state, action) => {
+                state.isSuccess = true;
+                state.isError = false;
+                // console.log("Request succeed:", action.payload); // 打印错误信息
+                state.product = action.payload;
+            })
+            .addCase(getOneProduct.rejected, (state, action) => {
                 state.isError = true;
                 state.message = action.payload;
                 toast.error(action.payload);
@@ -159,6 +209,18 @@ const productSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 toast.error(action.payload);
+            })
+
+            // 更新产品
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                state.isSuccess = true;
+                state.isError = false;
+                toast.success("物品更新成功");
+            })
+            .addCase(updateProduct.rejected, (state, action) => {
+                state.isError = true;
+                state.message = action.payload;
+                toast.error(action.payload);
             });
     },
 });
@@ -166,6 +228,7 @@ const productSlice = createSlice({
 export const { CALC_STORE_VALUE, CALC_OUTOFSTOCK, CALC_CATEGORY } =
     productSlice.actions;
 
+export const selectProduct = (state) => state.product.product;
 export const selectTotalStoreValue = (state) => state.product.totalStoreValue;
 export const selectOutOfStock = (state) => state.product.outOfStock;
 export const selectCategory = (state) => state.product.category;

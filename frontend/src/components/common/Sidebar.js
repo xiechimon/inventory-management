@@ -19,11 +19,10 @@ const SIDEBAR_ITEMS = [
     { name: "添加库存", icon: HousePlus, href: "/add-product" },
     { name: "资料", icon: UserRound, href: "/profile" },
     { name: "修改资料", icon: UserRoundPen, href: "/profile-update" },
-    { name: "问题反馈", icon: MessageCircle, href: "/contact-us" },
+    { name: "问题反馈", icon: MessageCircle, href: "/report-us" },
     { name: "WebRTC", icon: MonitorPlay, href: "/contact" },
 
     { name: "概览", icon: BarChart2, href: "/overview" },
-    { name: "产品", icon: ShoppingBag, href: "/products" },
     { name: "设置", icon: Settings, href: "/settings" },
 ];
 
@@ -53,8 +52,8 @@ const Sidebar = () => {
                         <Link key={item.href} to={item.href}>
                             <motion.div
                                 className={`flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors mb-2 ${
-                                    location.pathname === item.href
-                                        ? "bg-gray-400" // 当前页面高亮
+                                    location.pathname.startsWith(item.href)
+                                        ? "bg-gray-400" 
                                         : ""
                                 }`}
                             >
