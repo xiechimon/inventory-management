@@ -8,6 +8,9 @@ const initialState = {
     isError: false,
     isSuccess: false,
     message: "",
+    totalStoreValue: 0,
+    outOfStock: 0,
+    category: 0,
 };
 
 // 创建新产品
@@ -52,8 +55,50 @@ const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
+        // 计算总销售额
         CALC_STORE_VALUE(state, action) {
-            console.log("存储值");
+            const products = action.payload;
+            const array = []; // 每个商品的销售额
+            products.map((item) => {
+                const { price, quantity } = item;
+                const productValue = price * quantity;
+                return array.push(productValue);
+            });
+
+            const totalValue = array.reduce((a, b) => {
+                return a + b;
+            }, 0);
+            state.totalStoreValue = totalValue;
+        },
+        // 计算缺货
+        CALC_OUTOFSTOCK(state, action) {
+            const products = action.payload;
+            const array = [];
+            products.map((item) => {
+                const { quantity } = item;
+                return array.push(quantity);
+            });
+
+            let count = 0;
+
+            array.forEach((number) => {
+                if (number === 0 || number === "0") {
+                    count += 1;
+                }
+            });
+            state.outOfStock = count;
+        },
+        // 计算全部类别
+        CALC_CATEGORY(state, action) {
+            const products = action.payload;
+            const array = [];
+            products.map((item) => {
+                const { category } = item;
+                return array.push(category);
+            });
+            
+            const uniqueSet = new Set(array); // 去重
+            state.category = uniqueSet.size;
         },
     },
     extraReducers: (builder) => {
@@ -83,10 +128,14 @@ const productSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 toast.error(action.payload);
-            })
+            });
     },
 });
 
-export const { CALC_STORE_VALUE } = productSlice.actions;
+export const { CALC_STORE_VALUE, CALC_OUTOFSTOCK, CALC_CATEGORY } = productSlice.actions;
+
+export const selectTotalStoreValue = (state) => state.product.totalStoreValue;
+export const selectOutOfStock = (state) => state.product.outOfStock;
+export const selectCategory = (state) => state.product.category;
 
 export default productSlice.reducer;

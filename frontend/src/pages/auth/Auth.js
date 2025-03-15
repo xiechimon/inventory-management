@@ -26,11 +26,11 @@ const Auth = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector(selectIsLoggedIn);
-    
+
     // 已登录直接跳转到仪表盘
     if (isLoggedIn === true) {
-        navigate("/dashboard")
-        toast.info("您已经登录")
+        navigate("/dashboard");
+        toast.info("您已经登录");
     }
 
     // 切换登录和注册，切换时重置数据

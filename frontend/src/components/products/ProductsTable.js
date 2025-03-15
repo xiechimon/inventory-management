@@ -1,14 +1,5 @@
 import { motion } from "framer-motion";
-import {
-    AlignRight,
-    ArrowLeft,
-    ArrowRight,
-    ArrowRightCircle,
-    Edit,
-    Eye,
-    MoveRight,
-    Trash2,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Edit, Eye, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import SearchBox from "../common/SearchBox";
 import { useDispatch, useSelector } from "react-redux";
@@ -107,16 +98,6 @@ const ProductsTable = ({ products }) => {
                         </thead>
 
                         <tbody className="divide-y divide-gray-300">
-                            {/* 
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex gap-2 items-center">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1627989580309-bfaf3e58af6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww"
-                                            alt="Product img"
-                                            className="size-10 rounded-full"
-                                        />
-                                        {product.name}
-                                    </td>
-                           */}
                             {currentItems.map((product, index) => {
                                 const { _id, name, category, price, quantity } =
                                     product;
@@ -169,18 +150,6 @@ const ProductsTable = ({ products }) => {
                 )}
             </div>
             <div className="mt-6">
-                {/* 
-                    containerClassName="flex items-center justify-center mt-8 space-x-2"
-                    pageClassName="w-10 h-10 flex items-center justify-center rounded border border-gray-200"
-                    pageLinkClassName="text-gray-700 hover:bg-gray-100"
-                    previousClassName="w-10 h-10 flex items-center justify-center rounded border border-gray-200"
-                    previousLinkClassName="text-gray-700 hover:bg-gray-100"
-                    nextClassName="w-10 h-10 flex items-center justify-center rounded border border-gray-200"
-                    nextLinkClassName="text-gray-700 hover:bg-gray-100"
-                    breakClassName="w-10 h-10 flex items-center justify-center"
-                    breakLinkClassName="text-gray-700"
-                    activeClassName="bg-blue-600 text-white"
-                /> */}
                 <ReactPaginate
                     breakLabel={<span className="text-gray-300">...</span>}
                     nextLabel={
