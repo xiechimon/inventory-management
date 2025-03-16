@@ -4,14 +4,10 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
-    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.2",
     "framer-motion": "^12.4.10",
     "lucide-react": "^0.479.0",
-    "pinyin": "^4.0.0-alpha.2",
     "react": "^19.0.0",
     "react-confirm-alert": "^3.0.6",
     "react-dom": "^19.0.0",
@@ -19,8 +15,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.3.0",
     "react-scripts": "5.0.1",
-    "react-toastify": "^11.0.5",
-    "web-vitals": "^2.1.4"
+    "react-toastify": "^11.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-react-app": "^7.0.1",
     "tailwindcss": "^3.4.17"
   }
 }

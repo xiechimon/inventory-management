@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { logoutUser } from "../../services/authService";
-import { useDispatch } from "react-redux";
-import { SET_LOGIN } from "../../redux/features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, SET_LOGIN } from "../../redux/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 
 const Header = ({ title, subtitle }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector(selectUser);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const avatarRef = useRef(null);
@@ -15,6 +16,8 @@ const Header = ({ title, subtitle }) => {
         top: 0,
         right: 0,
     });
+
+    // 获取用户头像
 
     const logout = async () => {
         await logoutUser();
@@ -77,7 +80,10 @@ const Header = ({ title, subtitle }) => {
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     >
                         <img
-                            src="https://i.postimg.cc/pLJxRSJq/image.png"
+                            src={
+                                user.photo ||
+                                "https://i.postimg.cc/pLJxRSJq/image.png"
+                            }
                             alt="用户头像"
                             className="w-full h-full object-cover"
                         />

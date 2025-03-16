@@ -29,8 +29,6 @@ const AddProductPage = () => {
     };
 
     const handleImageChange = (e) => {
-        // setProductImage(e.target.files[0]);
-        // setImagePreview(URL.createObjectURL(e.target.files[0]));
 
         const file = e.target.files[0];
         setProductImage(file);
