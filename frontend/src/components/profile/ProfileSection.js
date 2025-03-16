@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const SettingSection = ({ icon: Icon, title, children }) => {
+const ProfileSection = ({ icon: Icon, title, children }) => {
 	return (
 		<motion.div
 			className='bg-gray-200 bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-lg rounded-xl p-6 border border-gray-300 mb-8'
@@ -9,11 +9,11 @@ const SettingSection = ({ icon: Icon, title, children }) => {
 			transition={{ duration: 0.5 }}
 		>
 			<div className='flex items-center mb-4'>
-				<Icon className='text-indigo-600 mr-4' size='24' />
+				<Icon className='text-blue-600 mr-4' size='24' />
 				<h2 className='text-xl font-semibold text-gray-900'>{title}</h2>
 			</div>
 			{children}
 		</motion.div>
 	);
 };
-export default SettingSection;
+export default ProfileSection;

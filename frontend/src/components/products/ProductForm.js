@@ -5,7 +5,7 @@ import {
     JapaneseYen,
     Book,
     Hash,
-    ArrowLeftCircle,
+    ArrowRightCircle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -37,15 +37,6 @@ const ProductForm = ({
                     <h2 className="text-xl font-semibold text-gray-900">
                         添加库存
                     </h2>
-
-                    {/* 返回按钮 */}
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="flex items-center gap-1.5 text-gray-600 hover:text-blue-600
-                        transition-colors group"
-                    >
-                        <ArrowLeftCircle className="w-8 h-8 group-hover:-translate-x-0.5 transition-transform" />
-                    </button>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -72,12 +63,21 @@ const ProductForm = ({
                                                     <img
                                                         src={imagePreview}
                                                         alt="产品预览"
-                                                        className="w-full h-full object-contain rounded-lg shadow-lg"
-                                                        style={{
-                                                            minWidth: "100%",
-                                                            minHeight: "100%",
-                                                        }}
+                                                        className="w-full h-full object-contain rounded-lg"
                                                     />
+
+                                                    {/* 添加半透明遮罩和提示 */}
+                                                    <div
+                                                        className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 
+                                                    flex items-center justify-center transition-all duration-300"
+                                                    >
+                                                        <p
+                                                            className="text-white opacity-0 group-hover:opacity-100 
+                                                        transition-opacity duration-300 font-medium"
+                                                        >
+                                                            点击更换图片
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ) : (
@@ -101,7 +101,7 @@ const ProductForm = ({
                                         name="image"
                                         className="hidden"
                                         accept="image/png, image/jpeg"
-                                        onChange={handleImageChange} // 绑定 handleImageChange
+                                        onChange={handleImageChange}
                                     />
                                 </div>
                             </div>
@@ -216,13 +216,22 @@ const ProductForm = ({
                         </div>
 
                         {/* 提交按钮 */}
-                        <div className="pt-6 flex justify-end ">
+                        <div className="flex justify-end space-x-4 pt-4">
+                            <button
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="px-6 py-2.5 bg-gray-200 hover:bg-gray-300
+                                text-gray-700 font-medium rounded-xl transition-colors"
+                            >
+                                取消
+                            </button>
                             <button
                                 type="submit"
-                                className="px-8 py-3 bg-blue-600 hover:bg-blue-700
-                                text-white font-medium rounded-xl relative"
+                                className={`px-8 py-2.5 bg-blue-600 hover:bg-blue-700
+                                text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2`}
                             >
-                                提交
+                                <span>提交</span>
+                                <ArrowRightCircle className="w-4 h-4" />
                             </button>
                         </div>
                     </form>

@@ -9,8 +9,6 @@ import { useDispatch } from "react-redux";
 import Layout from "./components/common/Layout";
 
 import Auth from "./pages/auth/Auth";
-import OverviewPage from "./pages/OverviewPage";
-import SettingsPage from "./pages/SettingsPage";
 import DashboardPage from "./pages/DashboardPage";
 import AddProductPage from "./pages/AddProductPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -19,6 +17,7 @@ import ContactUsPage from "./pages/ContactUsPage";
 import ContactPage from "./pages/ContactPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import EditProductPage from "./pages/EditProductPage";
+import ProfilePasswordPage from "./pages/ProfilePasswordPage";
 
 axios.defaults.withCredentials = true;
 
@@ -58,11 +57,12 @@ function App() {
                         path="/profile-update"
                         element={<ProfileUpdatePage />}
                     />
+                    <Route
+                        path="/profile-password"
+                        element={<ProfilePasswordPage />}
+                    />
                     <Route path="/report-us" element={<ContactUsPage />} />
                     <Route path="/contact" element={<ContactPage />} />
-
-                    <Route path="/overview" element={<OverviewPage />} />
-                    <Route path="/settings" element={<SettingsPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

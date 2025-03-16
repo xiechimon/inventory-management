@@ -1,5 +1,5 @@
 import { Lock } from "lucide-react";
-import SettingSection from "./SettingSection";
+import SettingSection from "./ProfileSection";
 
 const Security = () => {
     return (
