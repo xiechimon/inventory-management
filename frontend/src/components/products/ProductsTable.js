@@ -29,6 +29,12 @@ const ProductsTable = ({ products }) => {
     const [search, setSearch] = useState("");
     const filteredProducts = useSelector(selectFilterProducts);
 
+    // 修改搜索处理函数，在搜索时重置页码
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+        setItemOffset(0); // 重置到第一页
+    };
+
     const shortenText = (text, n) => {
         if (text.length > n) {
             const shortenedText = text.substring(0, n).concat("...");
@@ -152,7 +158,7 @@ const ProductsTable = ({ products }) => {
                     </button>
                     <SearchBox
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={handleSearch}
                     />
                 </div>
             </div>
