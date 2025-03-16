@@ -4,7 +4,6 @@ import ProductForm from "../components/products/ProductForm";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../redux/features/product/productSlice";
 import { useNavigate } from "react-router-dom";
-import pinyin from "pinyin";
 
 const initialState = {
     name: "",
@@ -58,17 +57,15 @@ const AddProductPage = () => {
     };
 
     const generateSKU = (category) => {
-        const pinyinArray = pinyin(category, {
-            style: pinyin.STYLE_FIRST_LETTER,  //获取拼音首字母
-        });
-        const letter = pinyinArray
-            .slice(0, 3) // 取前3个字符
-            .map(([firstLetter]) => firstLetter.toUpperCase()) // 转换为大写
-            .join("");
+        // 随机生成三个大写字母
+        const randomLetters = Array.from({ length: 3 }, () => {
+            // 生成 A-Z 的随机字母（A 的 ASCII 码是 65，Z 是 90）
+            return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+        }).join("");
 
         // const letter = category.slice(0, 3).toUpperCase();
         const number = Date.now();
-        const sku = letter + "-" + number;
+        const sku = randomLetters + "-" + number;
         return sku;
     };
 

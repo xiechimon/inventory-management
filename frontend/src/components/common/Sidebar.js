@@ -6,7 +6,6 @@ import {
     MessageCircle,
     MonitorPlay,
     Settings,
-    ShoppingBag,
     UserRound,
     UserRoundPen,
 } from "lucide-react";
