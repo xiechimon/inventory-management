@@ -18,6 +18,7 @@ import ContactPage from "./pages/ContactPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import EditProductPage from "./pages/EditProductPage";
 import ProfilePasswordPage from "./pages/ProfilePasswordPage";
+import RobotPage from "./pages/RobotPage";
 
 axios.defaults.withCredentials = true;
 
@@ -63,6 +64,7 @@ function App() {
                     />
                     <Route path="/report-us" element={<ReportUsPage />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/robot" element={<RobotPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

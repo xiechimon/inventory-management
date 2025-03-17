@@ -8,7 +8,7 @@ const API_URL = `${BACKEND_URL}/api/contactus/`;
 export const ReportUs = async (formData) => {
     try {
         const response = await axios.post(API_URL, formData);
-        toast.success("反馈提交成功!");
+        toast.success(response.data.message);
         return response.data;
     } catch (error) {
         const message =

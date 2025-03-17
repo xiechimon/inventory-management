@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import Header from "../components/common/Header";
 import { MessageCircle, Mail, Send, Info } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import {ReportUs} from "../services/contactService";
 
 const ReportUsPage = () => {
@@ -33,7 +32,6 @@ const ReportUsPage = () => {
         try {
             const data = await ReportUs(submissionData);
             console.log(data);
-            // toast.success("反馈提交成功!");
         } catch (error) {
             console.log(error.message);
         }

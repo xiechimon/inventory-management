@@ -16,7 +16,7 @@ const useRedirectLoginUser = (path) => {
             dispatch(SET_LOGIN(isLoggedIn));
 
             if (isLoggedIn) {
-                toast.warn("您已经登录，请先退出");
+                toast.warn("您已经登录");
                 navigate(path);
                 return;
             }

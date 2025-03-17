@@ -4,46 +4,45 @@ import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff, Save } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { changePassword } from "../services/authService";
 
 const ProfilePasswordPage = () => {
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-    });
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        oldPassword: "",
+        password: "",
+        password2: "",
+    });
 
+    // 处理输入
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // 简单的表单验证
-        if (formData.newPassword !== formData.confirmPassword) {
+        // 验证
+        if (formData.password !== formData.password2) {
             toast.error("新密码与确认密码不匹配");
             return;
         }
-
-        if (formData.newPassword.length < 6) {
+        if (formData.password.length < 6) {
             toast.error("新密码长度不能少于6个字符");
             return;
         }
-
-        setIsLoading(true);
-
-        // 模拟提交过程
-        setTimeout(() => {
-            setIsLoading(false);
-            toast.success("密码修改成功");
-            navigate("/profile");
-        }, 1500);
+        const { oldPassword, password } = formData;
+        const passData = {
+            oldPassword,
+            password,
+        };
+        const data = await changePassword(passData);
+        toast.success(data);
+        navigate("/profile");
     };
 
     return (
@@ -138,8 +137,8 @@ const ProfilePasswordPage = () => {
                                 </div>
                                 <input
                                     type={showNewPassword ? "text" : "password"}
-                                    name="newPassword"
-                                    value={formData.newPassword}
+                                    name="password"
+                                    value={formData.password}
                                     onChange={handleInputChange}
                                     className="pl-10 pr-12 py-3 w-full rounded-xl border-2 border-gray-200 focus:border-red-500 bg-white/70
                                     placeholder:text-gray-400 text-gray-700 outline-none duration-200"
@@ -181,8 +180,8 @@ const ProfilePasswordPage = () => {
                                             ? "text"
                                             : "password"
                                     }
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
+                                    name="password2"
+                                    value={formData.password2}
                                     onChange={handleInputChange}
                                     className="pl-10 pr-12 py-3 w-full rounded-xl border-2 border-gray-200 focus:border-red-500 bg-white/70
                                     placeholder:text-gray-400 text-gray-700 outline-none duration-200"
@@ -233,23 +232,12 @@ const ProfilePasswordPage = () => {
                             </button>
                             <button
                                 type="submit"
-                                disabled={isLoading}
                                 className={`px-8 py-2.5 bg-red-600 hover:bg-red-700
                                 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2
-                                ${
-                                    isLoading
-                                        ? "opacity-70 cursor-not-allowed"
-                                        : ""
-                                }`}
+                                `}
                             >
-                                {isLoading ? (
-                                    "保存中..."
-                                ) : (
-                                    <>
-                                        <Save className="w-4 h-4" />
-                                        <span>更改密码</span>
-                                    </>
-                                )}
+                                <Save className="w-4 h-4" />
+                                <span>更改密码</span>
                             </button>
                         </div>
                     </form>

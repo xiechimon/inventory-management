@@ -1,4 +1,5 @@
 import {
+    Brain,
     HousePlus,
     LayoutDashboard,
     Menu,
@@ -16,6 +17,7 @@ const SIDEBAR_ITEMS = [
     { name: "资料", icon: UserRound, href: "/profile" },
     { name: "WebRTC", icon: MonitorPlay, href: "/contact" },
     { name: "问题反馈", icon: MessageCircle, href: "/report-us" },
+    { name: "AI", icon: Brain , href: "/robot"}
 ];
 
 const Sidebar = () => {
