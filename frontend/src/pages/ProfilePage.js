@@ -17,7 +17,7 @@ const ProfilePage = () => {
     useEffect(() => {
         async function getUserData() {
             const data = await getUser();
-            console.log(data);
+            // console.log(data);
 
             setProfile(data);
             await dispatch(SET_USER(data));
