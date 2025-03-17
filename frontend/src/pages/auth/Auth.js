@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./auth.module.css";
 import { toast } from "react-toastify";
 import {
@@ -6,13 +6,10 @@ import {
     registerUser,
     validateEmail,
 } from "../../services/authService";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-    selectIsLoggedIn,
-    SET_LOGIN,
-    SET_NAME,
-} from "../../redux/features/auth/authSlice";
+import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
+import useRedirectLoginUser from "../../customHook/useRedirectLoginUser";
 
 const initialState = {
     name: "",
@@ -23,9 +20,9 @@ const initialState = {
 
 const Auth = () => {
     // 使用hooks
+    useRedirectLoginUser("/dashboard");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     // 切换登录和注册，切换时重置数据
     const [action, setAction] = useState("");
@@ -38,7 +35,6 @@ const Auth = () => {
         setAction("");
     };
 
-    // const [isLoading, setIsLoading] = useState(false); // 是否提交表单
     const [formData, setformData] = useState(initialState); // 存储表单数据
     const { name, email, password, password2 } = formData; // 从 formData 中解构出各个字段的值，方便在代码中直接使用。
 
@@ -104,10 +100,6 @@ const Auth = () => {
             console.log(error.message);
         }
     };
-    useEffect(() => {
-        navigate("/dashboard");
-        toast.info("您已经登录");
-    }, [isLoggedIn, navigate]);
 
     return (
         <div className={styles.authcontainer}>

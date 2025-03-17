@@ -13,7 +13,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AddProductPage from "./pages/AddProductPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileUpdatePage from "./pages/ProfileUpdatePage";
-import ContactUsPage from "./pages/ContactUsPage";
+import ReportUsPage from "./pages/ReportUsPage";
 import ContactPage from "./pages/ContactPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import EditProductPage from "./pages/EditProductPage";
@@ -61,7 +61,7 @@ function App() {
                         path="/profile-password"
                         element={<ProfilePasswordPage />}
                     />
-                    <Route path="/report-us" element={<ContactUsPage />} />
+                    <Route path="/report-us" element={<ReportUsPage />} />
                     <Route path="/contact" element={<ContactPage />} />
                 </Route>
             </Routes>
