@@ -260,8 +260,14 @@ const Auth = () => {
                     </div>
                 </form>
             </div>
+        
+        {/* 添加水印 */}
+        <div className={styles.watermark}>
+            <p>库存管理系统 v1.0</p>
+            <p>By Xiechimon</p>
         </div>
-    );
+    </div>
+);
 };
 
 export default Auth;
