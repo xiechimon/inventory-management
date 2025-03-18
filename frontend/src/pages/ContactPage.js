@@ -1,9 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/common/Header";
 import { motion } from "framer-motion";
-import { Monitor, Mic, MicOff, Phone, PhoneOff, Copy, Check, MousePointer } from "lucide-react";
+import {
+    Monitor,
+    Mic,
+    MicOff,
+    Phone,
+    PhoneOff,
+    Copy,
+    Check,
+    MousePointer,
+} from "lucide-react";
 
 const ContactPage = () => {
+    useEffect(() => {
+        toast("功能未完善，请使用其他页面");
+    }, []);
+
     const [localStream, setLocalStream] = useState(null);
     const [remoteStream, setRemoteStream] = useState(null);
     const [isCalling, setIsCalling] = useState(false);
@@ -33,16 +46,16 @@ const ContactPage = () => {
     const initializePeerConnection = (stream) => {
         const configuration = {
             iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' }
-            ]
+                { urls: "stun:stun.l.google.com:19302" },
+                { urls: "stun:stun1.l.google.com:19302" },
+            ],
         };
 
         const peerConnection = new RTCPeerConnection(configuration);
         peerConnectionRef.current = peerConnection;
 
         // 添加本地流
-        stream.getTracks().forEach(track => {
+        stream.getTracks().forEach((track) => {
             peerConnection.addTrack(track, stream);
         });
 
@@ -86,11 +99,13 @@ const ContactPage = () => {
         // 监听连接状态
         peerConnection.onconnectionstatechange = () => {
             console.log("连接状态:", peerConnection.connectionState);
-            if (peerConnection.connectionState === 'connected') {
+            if (peerConnection.connectionState === "connected") {
                 setIsConnected(true);
                 setIsCalling(false);
-            } else if (peerConnection.connectionState === 'disconnected' || 
-                      peerConnection.connectionState === 'failed') {
+            } else if (
+                peerConnection.connectionState === "disconnected" ||
+                peerConnection.connectionState === "failed"
+            ) {
                 endCall();
             }
         };
@@ -98,7 +113,7 @@ const ContactPage = () => {
         // 监听数据通道
         peerConnection.ondatachannel = (event) => {
             dataChannelRef.current = event.channel;
-            
+
             event.channel.onmessage = (e) => {
                 try {
                     const data = JSON.parse(e.data);
@@ -121,25 +136,25 @@ const ContactPage = () => {
 
         setIsCalling(true);
         setIsHost(true);
-        
+
         try {
             // 获取屏幕共享流
             const stream = await navigator.mediaDevices.getDisplayMedia({
                 video: true,
-                audio: true
+                audio: true,
             });
-            
+
             setLocalStream(stream);
-            
+
             if (localVideoRef.current) {
                 localVideoRef.current.srcObject = stream;
             }
-            
+
             // 监听屏幕共享停止
             stream.getVideoTracks()[0].onended = () => {
                 endCall();
             };
-            
+
             setIsScreenSharing(true);
         } catch (error) {
             console.error("获取屏幕共享失败:", error);
@@ -147,22 +162,21 @@ const ContactPage = () => {
             setIsHost(false);
             return;
         }
-        
+
         const peerConnection = initializePeerConnection(localStream);
-        
+
         try {
             const offer = await peerConnection.createOffer();
             await peerConnection.setLocalDescription(offer);
-            
+
             // 在实际应用中，这里应该将offer发送给对方
             console.log("创建的offer:", offer);
-            
+
             // 模拟发送offer给对方
             setTimeout(() => {
                 setIsConnected(true);
                 setIsCalling(false);
             }, 2000);
-            
         } catch (error) {
             console.error("创建offer失败:", error);
             setIsCalling(false);
@@ -178,24 +192,23 @@ const ContactPage = () => {
         }
 
         setIsCalling(true);
-        
+
         try {
             // 只获取音频流，不需要屏幕共享
             const audioStream = await navigator.mediaDevices.getUserMedia({
                 audio: true,
-                video: false
+                video: false,
             });
-            
+
             setLocalStream(audioStream);
-            
+
             const peerConnection = initializePeerConnection(audioStream);
-            
+
             // 模拟接收offer和发送answer
             setTimeout(() => {
                 setIsConnected(true);
                 setIsCalling(false);
             }, 2000);
-            
         } catch (error) {
             console.error("创建answer失败:", error);
             setIsCalling(false);
@@ -205,26 +218,26 @@ const ContactPage = () => {
     // 结束通话
     const endCall = () => {
         if (localStream) {
-            localStream.getTracks().forEach(track => track.stop());
+            localStream.getTracks().forEach((track) => track.stop());
             setLocalStream(null);
         }
-        
+
         if (peerConnectionRef.current) {
             peerConnectionRef.current.close();
             peerConnectionRef.current = null;
         }
-        
+
         setIsConnected(false);
         setIsCalling(false);
         setRemoteStream(null);
         setIsScreenSharing(false);
         setIsRemoteControlling(false);
         setIsHost(false);
-        
+
         if (localVideoRef.current) {
             localVideoRef.current.srcObject = null;
         }
-        
+
         if (remoteVideoRef.current) {
             remoteVideoRef.current.srcObject = null;
         }
@@ -245,28 +258,28 @@ const ContactPage = () => {
     // 处理远程控制数据
     const handleCollaborationData = (data) => {
         if (!isRemoteControlling) return;
-        
+
         switch (data.type) {
-            case 'cursor':
+            case "cursor":
                 // 更新远程鼠标位置
                 setCursorPosition(data.position);
                 break;
-            case 'mousedown':
+            case "mousedown":
                 // 远程鼠标点击
                 if (isHost && isRemoteControlling) {
-                    simulateMouseEvent('mousedown', data.position);
+                    simulateMouseEvent("mousedown", data.position);
                 }
                 break;
-            case 'mouseup':
+            case "mouseup":
                 // 远程鼠标释放
                 if (isHost && isRemoteControlling) {
-                    simulateMouseEvent('mouseup', data.position);
+                    simulateMouseEvent("mouseup", data.position);
                 }
                 break;
-            case 'click':
+            case "click":
                 // 远程鼠标点击
                 if (isHost && isRemoteControlling) {
-                    simulateMouseEvent('click', data.position);
+                    simulateMouseEvent("click", data.position);
                 }
                 break;
             default:
@@ -277,64 +290,77 @@ const ContactPage = () => {
     // 模拟鼠标事件
     const simulateMouseEvent = (eventType, position) => {
         if (!localVideoRef.current) return;
-        
+
         const rect = localVideoRef.current.getBoundingClientRect();
         const x = position.x + rect.left;
         const y = position.y + rect.top;
-        
+
         const event = new MouseEvent(eventType, {
             view: window,
             bubbles: true,
             cancelable: true,
             clientX: x,
-            clientY: y
+            clientY: y,
         });
-        
+
         document.elementFromPoint(x, y)?.dispatchEvent(event);
     };
 
     // 处理鼠标移动
     const handleMouseMove = (e) => {
         if (isHost) return; // 主持人不需要处理
-        
+
         if (!canvasRef.current) return;
         const rect = canvasRef.current.getBoundingClientRect();
         const position = {
             x: e.clientX - rect.left,
-            y: e.clientY - rect.top
+            y: e.clientY - rect.top,
         };
-        
+
         // 发送鼠标位置给对方
-        if (dataChannelRef.current && dataChannelRef.current.readyState === 'open') {
-            dataChannelRef.current.send(JSON.stringify({
-                type: 'cursor',
-                position
-            }));
+        if (
+            dataChannelRef.current &&
+            dataChannelRef.current.readyState === "open"
+        ) {
+            dataChannelRef.current.send(
+                JSON.stringify({
+                    type: "cursor",
+                    position,
+                })
+            );
         }
     };
 
     // 处理鼠标按下
     const handleMouseDown = (e) => {
         if (isHost) return; // 主持人不需要处理
-        
+
         const rect = canvasRef.current.getBoundingClientRect();
         const position = {
             x: e.clientX - rect.left,
-            y: e.clientY - rect.top
+            y: e.clientY - rect.top,
         };
-        
-        if (isRemoteControlling && dataChannelRef.current && dataChannelRef.current.readyState === 'open') {
-            dataChannelRef.current.send(JSON.stringify({
-                type: 'mousedown',
-                position
-            }));
-            
+
+        if (
+            isRemoteControlling &&
+            dataChannelRef.current &&
+            dataChannelRef.current.readyState === "open"
+        ) {
+            dataChannelRef.current.send(
+                JSON.stringify({
+                    type: "mousedown",
+                    position,
+                })
+            );
+
             // 短暂延迟后发送点击事件
             setTimeout(() => {
-                dataChannelRef.current.send(JSON.stringify({
-                    type: 'click',
-                    position
-                }));
+                dataChannelRef.current.send(
+                    JSON.stringify({
+                        type: "click",
+                        position,
+                    })
+                );
             }, 50);
         }
     };
@@ -342,18 +368,24 @@ const ContactPage = () => {
     // 处理鼠标释放
     const handleMouseUp = (e) => {
         if (isHost) return; // 主持人不需要处理
-        
-        if (isRemoteControlling && dataChannelRef.current && dataChannelRef.current.readyState === 'open') {
+
+        if (
+            isRemoteControlling &&
+            dataChannelRef.current &&
+            dataChannelRef.current.readyState === "open"
+        ) {
             const rect = canvasRef.current.getBoundingClientRect();
             const position = {
                 x: e.clientX - rect.left,
-                y: e.clientY - rect.top
+                y: e.clientY - rect.top,
             };
-            
-            dataChannelRef.current.send(JSON.stringify({
-                type: 'mouseup',
-                position
-            }));
+
+            dataChannelRef.current.send(
+                JSON.stringify({
+                    type: "mouseup",
+                    position,
+                })
+            );
         }
     };
 
@@ -410,7 +442,7 @@ const ContactPage = () => {
                                     className="w-full h-full object-contain"
                                 />
                             )}
-                            
+
                             {/* 远程控制画布 - 只在观看者模式下显示 */}
                             {isRemoteControlling && !isHost && (
                                 <canvas
@@ -422,38 +454,47 @@ const ContactPage = () => {
                                     onMouseLeave={handleMouseUp}
                                 />
                             )}
-                            
+
                             {/* 远程鼠标指针 - 只在主持人模式下显示 */}
                             {isConnected && isRemoteControlling && isHost && (
-                                <div 
+                                <div
                                     className="absolute pointer-events-none"
-                                    style={{ 
-                                        left: `${cursorPosition.x}px`, 
+                                    style={{
+                                        left: `${cursorPosition.x}px`,
                                         top: `${cursorPosition.y}px`,
-                                        transform: 'translate(-50%, -50%)'
+                                        transform: "translate(-50%, -50%)",
                                     }}
                                 >
                                     <MousePointer className="text-blue-500 w-6 h-6" />
                                 </div>
                             )}
-                            
+
                             {/* 连接状态指示器 */}
                             {isCalling && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70">
                                     <div className="text-white text-center">
                                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white mx-auto mb-2"></div>
-                                        <p className="text-lg font-medium">正在连接...</p>
+                                        <p className="text-lg font-medium">
+                                            正在连接...
+                                        </p>
                                     </div>
                                 </div>
                             )}
-                            
+
                             {/* 未连接提示 */}
                             {!isConnected && !isCalling && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70">
                                     <div className="text-white text-center p-4">
-                                        <Monitor className="mx-auto mb-2" size={48} />
-                                        <p className="text-lg font-medium mb-2">准备开始远程协作</p>
-                                        <p className="text-sm opacity-80">点击下方按钮发起或接受屏幕共享</p>
+                                        <Monitor
+                                            className="mx-auto mb-2"
+                                            size={48}
+                                        />
+                                        <p className="text-lg font-medium mb-2">
+                                            准备开始远程协作
+                                        </p>
+                                        <p className="text-sm opacity-80">
+                                            点击下方按钮发起或接受屏幕共享
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -465,7 +506,9 @@ const ContactPage = () => {
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div className="flex flex-col md:flex-row gap-4 flex-1">
                                 <div className="flex-1">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">您的ID</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        您的ID
+                                    </label>
                                     <div className="flex">
                                         <input
                                             type="text"
@@ -477,16 +520,24 @@ const ContactPage = () => {
                                             onClick={copyPeerId}
                                             className="bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-r-lg px-4 py-2 flex items-center"
                                         >
-                                            {copied ? <Check size={18} /> : <Copy size={18} />}
+                                            {copied ? (
+                                                <Check size={18} />
+                                            ) : (
+                                                <Copy size={18} />
+                                            )}
                                         </button>
                                     </div>
                                 </div>
                                 <div className="flex-1">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">对方ID</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        对方ID
+                                    </label>
                                     <input
                                         type="text"
                                         value={remotePeerId}
-                                        onChange={(e) => setRemotePeerId(e.target.value)}
+                                        onChange={(e) =>
+                                            setRemotePeerId(e.target.value)
+                                        }
                                         placeholder="输入对方ID进行连接"
                                         className="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700"
                                     />
@@ -534,7 +585,11 @@ const ContactPage = () => {
                                             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                                     }`}
                                 >
-                                    {isMuted ? <MicOff size={24} /> : <Mic size={24} />}
+                                    {isMuted ? (
+                                        <MicOff size={24} />
+                                    ) : (
+                                        <Mic size={24} />
+                                    )}
                                 </button>
                                 {!isHost && (
                                     <button
@@ -562,20 +617,34 @@ const ContactPage = () => {
 
                     {/* 使用说明 */}
                     <div className="mt-8 bg-blue-50 p-4 rounded-lg border border-blue-200">
-                        <h3 className="text-lg font-medium text-blue-800 mb-2">使用说明</h3>
+                        <h3 className="text-lg font-medium text-blue-800 mb-2">
+                            使用说明
+                        </h3>
                         <ul className="list-disc pl-5 space-y-1 text-sm text-blue-700">
-                            <li>复制您的ID并分享给对方，或输入对方的ID进行连接</li>
-                            <li>点击"发起共享"按钮开始屏幕共享（您将成为主持人）</li>
-                            <li>点击"接受共享"按钮接受对方的屏幕共享（您将成为观看者）</li>
-                            <li>观看者可以点击远程控制按钮，直接操控主持人的屏幕</li>
+                            <li>
+                                复制您的ID并分享给对方，或输入对方的ID进行连接
+                            </li>
+                            <li>
+                                点击"发起共享"按钮开始屏幕共享（您将成为主持人）
+                            </li>
+                            <li>
+                                点击"接受共享"按钮接受对方的屏幕共享（您将成为观看者）
+                            </li>
+                            <li>
+                                观看者可以点击远程控制按钮，直接操控主持人的屏幕
+                            </li>
                             <li>点击"结束共享"按钮可以终止当前共享</li>
-                            <li>注意：此功能需要浏览器支持WebRTC技术，并允许访问屏幕和麦克风</li>
+                            <li>
+                                注意：此功能需要浏览器支持WebRTC技术，并允许访问屏幕和麦克风
+                            </li>
                         </ul>
                     </div>
 
                     {/* 隐私提示 */}
                     <div className="mt-4 text-xs text-gray-500 italic">
-                        <p>隐私说明：屏幕共享数据采用点对点加密传输，不经过服务器存储。请在安全的网络环境下使用。</p>
+                        <p>
+                            隐私说明：屏幕共享数据采用点对点加密传输，不经过服务器存储。请在安全的网络环境下使用。
+                        </p>
                     </div>
                 </motion.div>
             </main>
