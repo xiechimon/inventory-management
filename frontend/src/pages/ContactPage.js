@@ -11,6 +11,7 @@ import {
     Check,
     MousePointer,
 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const ContactPage = () => {
     useEffect(() => {
