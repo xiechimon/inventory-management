@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { logoutUser } from "../../services/authService";
+import { getLoginStatus, logoutUser } from "../../services/authService";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, SET_LOGIN } from "../../redux/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -17,12 +17,14 @@ const Header = ({ title, subtitle }) => {
         right: 0,
     });
 
-    // 获取用户头像
-
     const logout = async () => {
-        await logoutUser();
-        await dispatch(SET_LOGIN(false));
-        navigate("/auth");
+        try {
+            await logoutUser();
+            dispatch(SET_LOGIN(false));
+            navigate("/auth");
+        } catch (error) {
+            console.error("登出失败:", error);
+        }
     };
 
     const CheckToProfile = () => {

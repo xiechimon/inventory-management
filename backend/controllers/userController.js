@@ -45,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + 1000 * 86400 * 365), // 365 day
         sameSite: "none",
-        secure: true,
+        // secure: true,
     });
 
     if (user) {
@@ -95,8 +95,8 @@ const loginUser = asyncHandler(async (req, res) => {
             path: "/",
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 86400 * 365), // 365 day
-            sameSite: "none",
-            secure: true,
+            // sameSite: "none",
+            // secure: true,
         });
     }
 
@@ -124,8 +124,8 @@ const logoutUser = asyncHandler(async (req, res) => {
         path: "/",
         httpOnly: true,
         expires: new Date(0), // 现在过期
-        sameSite: "none",
-        secure: true,
+        // sameSite: "none",
+        // secure: true,
     });
     return res.status(200).json({ message: "退出登录成功" });
 });

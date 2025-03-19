@@ -14,8 +14,13 @@ import {
 import { toast } from "react-toastify";
 
 const ContactPage = () => {
+    // 使用 ref 来跟踪是否已经显示过提示
+    const hasShownToast = useRef(false);
     useEffect(() => {
-        toast("功能未完善，请使用其他页面");
+        if (!hasShownToast.current) {
+            toast("功能未完善，请使用其他页面");
+            hasShownToast.current = true;
+        }
     }, []);
 
     const [localStream, setLocalStream] = useState(null);

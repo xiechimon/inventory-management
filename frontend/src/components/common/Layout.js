@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
-import { Outlet } from 'react-router-dom';
-import { getUser } from "../../services/authService";
+import { Outlet } from "react-router-dom";
+import {  getUser } from "../../services/authService";
 import { useDispatch } from "react-redux";
 import { SET_USER } from "../../redux/features/auth/authSlice";
 
-const Layout = ({ children }) => {
+const Layout = () => {
     const dispatch = useDispatch();
     // 防止刷新页面，头像信息丢失
     useEffect(() => {
@@ -14,8 +14,8 @@ const Layout = ({ children }) => {
             await dispatch(SET_USER(data));
         }
         getUserData();
-    }, [dispatch])
-    
+    }, [dispatch]);
+
     return (
         <div className="flex h-screen bg-gray-100 text-gray-900 overflow-hidden">
             {/* BG */}
@@ -26,7 +26,6 @@ const Layout = ({ children }) => {
             <Sidebar />
             <Outlet />
         </div>
-
     );
 };
 

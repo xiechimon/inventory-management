@@ -20,9 +20,10 @@ const initialState = {
 
 const Auth = () => {
     // 使用hooks
-    useRedirectLoginUser("/dashboard");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    useRedirectLoginUser("/dashboard");
+    
 
     // 切换登录和注册，切换时重置数据
     const [action, setAction] = useState("");
