@@ -1,27 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // 从 localStorage 中读取 name
-// const getNameFromLocalStorage = () => {
-//     try {
-//         const name = localStorage.getItem("name");
+const getNameFromLocalStorage = () => {
+    try {
+        const name = localStorage.getItem("name");
 
-//         // 如果 name 不存在或为空字符串，返回默认值
-//         if (!name || name === "undefined" || name === "null") {
-//             return "";
-//         }
+        // 如果 name 不存在或为空字符串，返回默认值
+        if (!name || name === "undefined" || name === "null") {
+            return "";
+        }
 
-//         // 尝试解析 JSON
-//         const parsedName = JSON.parse(name);
-//         return parsedName || ""; // 如果解析结果为 null 或 undefined，返回默认值
-//     } catch (error) {
-//         console.error("Failed to parse name from localStorage:", error);
-//         return ""; // 如果解析失败，返回默认值
-//     }
-// };
-const name = JSON.parse(localStorage.getItem("name"));
+        // 尝试解析 JSON
+        const parsedName = JSON.parse(name);
+        return parsedName || ""; // 如果解析结果为 null 或 undefined，返回默认值
+    } catch (error) {
+        console.error("Failed to parse name from localStorage:", error);
+        return ""; // 如果解析失败，返回默认值
+    }
+};
 const initialState = {
     isLoggedIn: false,
-    name: name ? name : "",
+    name: getNameFromLocalStorage(),
     user: {
         name: "",
         email: "",

@@ -71,7 +71,10 @@ const Auth = () => {
             // console.log(data);
             await dispatch(SET_LOGIN(true));
             await dispatch(SET_NAME(data.name));
-            navigate("/dashboard");
+            // navigate("/dashboard");
+            toast.success("用户注册成功");
+            // 切换到登录
+            loginLink();
         } catch (error) {
             console.log(error.message);
         }

@@ -29,6 +29,13 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error("该邮箱已被注册");
     }
 
+    // 检查用户名是否存在
+    const usernameExists = await User.findOne({ name });
+    if (usernameExists) {
+        res.status(400);
+        throw new Error("该用户名已被注册");
+    }
+
     // 创建新用户
     const user = await User.create({
         name,
