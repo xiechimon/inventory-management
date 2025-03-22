@@ -4,7 +4,7 @@ import {
     LayoutDashboard,
     Menu,
     MessageCircle,
-    MonitorPlay,
+    UserPlus,
     UserRound,
 } from "lucide-react";
 import { useState } from "react";
@@ -14,8 +14,8 @@ import { Link, useLocation } from "react-router-dom";
 const SIDEBAR_ITEMS = [
     { name: "仪表盘", icon: LayoutDashboard, href: "/dashboard" },
     { name: "添加库存", icon: HousePlus, href: "/add-product" },
+    { name: "用户管理", icon: UserPlus, href: "/user-management" },
     { name: "资料", icon: UserRound, href: "/profile" },
-    { name: "WebRTC", icon: MonitorPlay, href: "/contact" },
     { name: "问题反馈", icon: MessageCircle, href: "/report-us" },
     { name: "AI", icon: Brain , href: "/robot"}
 ];

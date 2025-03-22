@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./auth.module.css";
 import { toast } from "react-toastify";
 import {
@@ -23,7 +23,45 @@ const Auth = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useRedirectLoginUser("/dashboard");
-    
+
+    // 添加背景动画效果
+    const [animItems, setAnimItems] = useState([]);
+
+    useEffect(() => {
+        // 创建背景动画元素
+        const items = [];
+        const icons = [
+            "box",
+            "package",
+            "clipboard",
+            "truck",
+            "archive",
+            "barcode",
+            "cart",
+            "store",
+            "cabinet",
+            "server",
+            "data",
+            "chart",
+        ];
+
+        // 增加元素数量从15到25
+        for (let i = 0; i < 25; i++) {
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            items.push({
+                id: i,
+                icon: randomIcon,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                size: `${Math.random() * 1.5 + 0.8}rem`, // 稍微增大尺寸
+                duration: `${Math.random() * 20 + 10}s`,
+                delay: `${Math.random() * 5}s`,
+                rotate: Math.random() > 0.5, // 随机决定是否旋转
+            });
+        }
+
+        setAnimItems(items);
+    }, []);
 
     // 切换登录和注册，切换时重置数据
     const [action, setAction] = useState("");
@@ -107,6 +145,28 @@ const Auth = () => {
 
     return (
         <div className={styles.authcontainer}>
+            {/* 添加动态背景元素 */}
+            <div className={styles.backgroundElements}>
+                {animItems.map((item) => (
+                    <i
+                        key={item.id}
+                        className={`bx bx-${item.icon} ${styles.bgIcon} ${item.rotate ? styles.rotate : ''}`}
+                        style={{
+                            left: item.left,
+                            top: item.top,
+                            fontSize: item.size,
+                            animationDuration: item.duration,
+                            animationDelay: item.delay,
+                        }}
+                    ></i>
+                ))}
+            </div>
+
+            {/* 添加装饰性标题 */}
+            <div className={styles.decorativeTitle}>
+                <h1>库存管理系统</h1>
+            </div>
+
             <div className={`${styles.wrapper} ${action ? styles.active : ""}`}>
                 <div className={styles["form-header"]}>
                     <div className={styles.titles}>
@@ -114,9 +174,9 @@ const Auth = () => {
                         <div className={styles["title-register"]}>注册</div>
                     </div>
                 </div>
+
                 {/*  LOGIN FORM */}
                 <form
-                    // action="#"
                     className={styles["login-form"]}
                     onSubmit={login}
                     autoComplete="off"
@@ -178,7 +238,6 @@ const Auth = () => {
 
                 {/* REGISTER FORM */}
                 <form
-                    // action="#"
                     className={styles["register-form"]}
                     onSubmit={register}
                     autoComplete="off"
@@ -264,14 +323,9 @@ const Auth = () => {
                     </div>
                 </form>
             </div>
-        
-        {/* 添加水印 */}
-        <div className={styles.watermark}>
-            <p>库存管理系统 v1.0</p>
-            <p>By Xiechimon</p>
+
         </div>
-    </div>
-);
+    );
 };
 
 export default Auth;
