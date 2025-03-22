@@ -230,6 +230,26 @@ const changepassword = asyncHandler(async (req, res) => {
     }
 });
 
+// 获取所有用户
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find().select("-password").sort("-createdAt");
+    res.status(200).json(users);
+});
+
+// 删除用户
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    // 检查用户是否存在
+    if (!user) {
+        res.status(404);
+        throw new Error("用户不存在");
+    }
+
+    await user.deleteOne();
+    res.status(200).json({ message: "用户删除成功" });
+});
+
 module.exports = {
     registerUser,
     loginUser,
@@ -238,4 +258,6 @@ module.exports = {
     loginStatus,
     updateUser,
     changepassword,
+    getAllUsers,
+    deleteUser,
 };

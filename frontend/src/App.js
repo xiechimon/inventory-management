@@ -18,7 +18,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import EditProductPage from "./pages/EditProductPage";
 import ProfilePasswordPage from "./pages/ProfilePasswordPage";
 import RobotPage from "./pages/RobotPage";
-import userManagementPage from "./pages/userManagementPage";
+import UserManagementPage from "./pages/UserManagementPage";
 
 axios.defaults.withCredentials = true;
 
@@ -53,7 +53,7 @@ function App() {
                         element={<EditProductPage />}
                     />
                     <Route path="/add-product" element={<AddProductPage />} />
-                    <Route path="/user-management" element={<userManagementPage />} />
+                    <Route path="/user-management" element={<UserManagementPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route
                         path="/profile-update"

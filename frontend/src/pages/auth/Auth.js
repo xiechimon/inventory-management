@@ -53,10 +53,12 @@ const Auth = () => {
                 icon: randomIcon,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                size: `${Math.random() * 1.5 + 0.8}rem`, // 稍微增大尺寸
-                duration: `${Math.random() * 20 + 10}s`,
+                size: `${Math.random() * 2 + 1}rem`, // 增大图标尺寸范围
+                duration: `${Math.random() * 15 + 8}s`, // 缩短动画时间使运动更快
                 delay: `${Math.random() * 5}s`,
                 rotate: Math.random() > 0.5, // 随机决定是否旋转
+                direction: Math.random() > 0.5 ? 'normal' : 'reverse', // 随机动画方向
+                scale: 0.8 + Math.random() * 0.5, // 添加缩放变化
             });
         }
 
@@ -157,6 +159,9 @@ const Auth = () => {
                             fontSize: item.size,
                             animationDuration: item.duration,
                             animationDelay: item.delay,
+                            animationDirection: item.direction,
+                            transform: `scale(${item.scale})`,
+                            opacity: 0.6 + Math.random() * 0.4, // 添加不同透明度
                         }}
                     ></i>
                 ))}
