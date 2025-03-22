@@ -20,6 +20,7 @@ const AddProductPage = () => {
     const [productImage, setProductImage] = useState("");
     const [imagePreview, setImagePreview] = useState(null);
     const [description, setDescription] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false); // 添加提交状态
 
     const { name, category, quantity, price } = product;
 
@@ -69,6 +70,8 @@ const AddProductPage = () => {
 
     const saveProduct = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true); // 开始提交，设置加载状态
+        
         const formData = new FormData();
         formData.append("name", name);
         formData.append("sku", generateSKU(category));
@@ -78,10 +81,13 @@ const AddProductPage = () => {
         formData.append("description", description);
         formData.append("image", productImage);
 
-        console.log(...formData);
-
-        await dispatch(createProduct(formData)); // 提交到数据库
-        navigate("/dashboard");
+        try {
+            await dispatch(createProduct(formData)); // 提交到数据库
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("提交产品时出错:", error);
+            setIsSubmitting(false); // 如果出错，重置提交状态
+        }
     };
 
     return (
@@ -97,6 +103,7 @@ const AddProductPage = () => {
                 handleImageChange={handleImageChange}
                 handleInputChange={handleInputChange}
                 saveProduct={saveProduct}
+                isSubmitting={isSubmitting} // 传递提交状态给表单组件
             />
         </div>
     );

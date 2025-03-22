@@ -5,9 +5,7 @@ import {
     JapaneseYen,
     Book,
     Hash,
-    ArrowRightCircle,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 const ProductForm = ({
     product,
@@ -15,15 +13,15 @@ const ProductForm = ({
     imagePreview,
     description,
     setDescription,
-    handleImageChange,
     handleInputChange,
+    handleImageChange,
     saveProduct,
+    isSubmitting // 确保添加这个参数
 }) => {
     const handleDescriptionChange = (e) => {
         setDescription(e.target.value); // 从事件对象中提取输入值
     };
 
-    const navigate = useNavigate();
 
     return (
         <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
@@ -216,23 +214,32 @@ const ProductForm = ({
                         </div>
 
                         {/* 提交按钮 */}
-                        <div className="flex justify-end space-x-4 pt-4">
+                        <div className="flex justify-end gap-4 mt-6">
+                          {!isSubmitting && (
                             <button
-                                type="button"
-                                onClick={() => navigate(-1)}
-                                className="px-6 py-2.5 bg-gray-200 hover:bg-gray-300
-                                text-gray-700 font-medium rounded-xl transition-colors"
+                              onClick={() => window.history.back()}
+                              className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
                             >
-                                取消
+                              取消
                             </button>
-                            <button
-                                type="submit"
-                                className={`px-8 py-2.5 bg-blue-600 hover:bg-blue-700
-                                text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2`}
-                            >
-                                <span>提交</span>
-                                <ArrowRightCircle className="w-4 h-4" />
-                            </button>
+                          )}
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                提交中...
+                              </>
+                            ) : (
+                              '保存产品'
+                            )}
+                          </button>
                         </div>
                     </form>
                 </div>
