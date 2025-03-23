@@ -234,7 +234,7 @@ const ProductsTable = ({ products }) => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {shortenText(name, 12)}
+                                            {shortenText(name, 40)}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {category}
