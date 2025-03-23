@@ -14,6 +14,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 // 格式化销售额
 export const formatNumbers = (x) => {
+    // 对于大数值，使用简化显示（如：1,234,567.89 -> 123.46万）
+    // if (x >= 10000) {
+    //     return (x / 10000).toFixed(2) + "万";
+    // }
+    
     // 保留两位小数，并添加千位分隔符
     return x.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };

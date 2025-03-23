@@ -35,6 +35,7 @@ const ProductsTable = ({ products }) => {
         setItemOffset(0); // 重置到第一页
     };
 
+    // 文本过长时截取
     const shortenText = (text, n) => {
         if (text.length > n) {
             const shortenedText = text.substring(0, n).concat("...");
@@ -128,7 +129,6 @@ const ProductsTable = ({ products }) => {
         setItemOffset(newOffset);
     };
     // END Paginate
-
     useEffect(() => {
         dispatch(FILTER_PRODUCTS({ products, search }));
     }, [products, search, dispatch]);
@@ -173,6 +173,9 @@ const ProductsTable = ({ products }) => {
                                 <th className="w-1/12 px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                     序号
                                 </th>
+                                <th className="w-1/12 px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                                    图片
+                                </th>
                                 <th className="w-1/4 px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                     名称
                                 </th>
@@ -196,7 +199,7 @@ const ProductsTable = ({ products }) => {
 
                         <tbody className="divide-y divide-gray-300">
                             {currentItems.map((product, index) => {
-                                const { _id, name, category, price, quantity } =
+                                const { _id, name, category, price, quantity, image } =
                                     product;
                                 return (
                                     <motion.tr
@@ -211,8 +214,27 @@ const ProductsTable = ({ products }) => {
                                         <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900 flex gap-4 items-center">
                                             {index + 1}
                                         </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="h-12 w-12 rounded-md overflow-hidden bg-gray-100 border border-gray-200">
+                                                {image ? (
+                                                    <img 
+                                                        src={image.filePath} 
+                                                        alt={name}
+                                                        className="h-full w-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = "https://via.placeholder.com/100?text=无图片";
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="h-full w-full flex items-center justify-center bg-gray-50 text-gray-400">
+                                                        无图片
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {shortenText(name, 6)}
+                                            {shortenText(name, 12)}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {category}
